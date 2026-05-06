@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\hotelmanagement.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\hotelmanagement.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0001-0001-0001-000000000001}|HotelManagement.API\\HotelManagement.API.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.api\\controllers\\superadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1B2C3D4-0001-0001-0001-000000000001}|HotelManagement.API\\HotelManagement.API.csproj|solutionrelative:hotelmanagement.api\\controllers\\superadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0002-0002-0002-000000000002}|HotelManagement.Application\\HotelManagement.Application.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.application\\features\\auth\\logincommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1B2C3D4-0002-0002-0002-000000000002}|HotelManagement.Application\\HotelManagement.Application.csproj|solutionrelative:hotelmanagement.application\\features\\auth\\logincommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -29,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0002-0002-0002-000000000002}|HotelManagement.Application\\HotelManagement.Application.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.application\\features\\dashboard\\queries\\getdashboardstatsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1B2C3D4-0002-0002-0002-000000000002}|HotelManagement.Application\\HotelManagement.Application.csproj|solutionrelative:hotelmanagement.application\\features\\dashboard\\queries\\getdashboardstatsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0001-0001-0001-000000000001}|HotelManagement.API\\HotelManagement.API.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.api\\controllers\\superadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0001-0001-0001-000000000001}|HotelManagement.API\\HotelManagement.API.csproj|solutionrelative:hotelmanagement.api\\controllers\\superadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0003-0003-0003-000000000003}|HotelManagement.Domain\\HotelManagement.Domain.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.domain\\entities\\tenant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -170,52 +178,12 @@
       "RelativeMoniker": "D:0:0:{A1B2C3D4-0001-0001-0001-000000000001}|HotelManagement.API\\HotelManagement.API.csproj|solutionrelative:hotelmanagement.api\\models\\createroomrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\services\\localimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\services\\localimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0002-0002-0002-000000000002}|HotelManagement.Application\\HotelManagement.Application.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.application\\common\\interfaces\\iimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1B2C3D4-0002-0002-0002-000000000002}|HotelManagement.Application\\HotelManagement.Application.csproj|solutionrelative:hotelmanagement.application\\common\\interfaces\\iimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260316165631_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260316165631_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260318141631_roomimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260318141631_roomimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260322161007_billss.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260322161007_billss.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260325141149_addhotelsettingstenant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260325141149_addhotelsettingstenant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260325135544_addhotelsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260325135544_addhotelsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260428143243_guestnumber.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260428143243_guestnumber.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260428144438_guestnumberinguest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260428144438_guestnumberinguest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260428145101_guestnumberinguestfk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260428145101_guestnumberinguestfk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|d:\\company\\hotelmanagementsaas\\hotel-saas\\backend\\hotelmanagement.infrastructure\\migrations\\20260504141152_nullable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1B2C3D4-0004-0004-0004-000000000004}|HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj|solutionrelative:hotelmanagement.infrastructure\\migrations\\20260504141152_nullable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -225,47 +193,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 53,
-              "Title": "20260504141152_Nullable.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260504141152_Nullable.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260504141152_Nullable.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260504141152_Nullable.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260504141152_Nullable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T14:11:52.791Z"
+              "DocumentIndex": 0,
+              "Title": "HotelManagement.Infrastructure.csproj",
+              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj",
+              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj",
+              "RelativeToolTip": "HotelManagement.Infrastructure\\HotelManagement.Infrastructure.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-05T15:11:17.005Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "BookingsController.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\BookingsController.cs",
-              "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\BookingsController.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\BookingsController.cs",
-              "RelativeToolTip": "HotelManagement.API\\Controllers\\BookingsController.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAgwEAAAAA3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T15:16:49.392Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Room.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Room.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\Room.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Room.cs",
-              "RelativeToolTip": "HotelManagement.Domain\\Entities\\Room.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAA9wB4AAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T14:07:36.353Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "User.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\User.cs",
               "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\User.cs",
@@ -277,7 +222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "GetHotelSettingsQuery.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Settings\\Queries\\GetHotelSettingsQuery.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Settings\\Queries\\GetHotelSettingsQuery.cs",
@@ -289,7 +234,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "LoginCommand.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Auth\\LoginCommand.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Auth\\LoginCommand.cs",
@@ -297,12 +242,11 @@
               "RelativeToolTip": "HotelManagement.Application\\Features\\Auth\\LoginCommand.cs",
               "ViewState": "AgIAAE4AAAAAAAAAAAAswFQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T16:11:17.841Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T16:11:17.841Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\AuthController.cs",
@@ -314,7 +258,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "SuperAdminController.cs",
+              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\SuperAdminController.cs",
+              "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\SuperAdminController.cs",
+              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\SuperAdminController.cs",
+              "RelativeToolTip": "HotelManagement.API\\Controllers\\SuperAdminController.cs",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAYwJkAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T15:07:53.035Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\DependencyInjection.cs",
+              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\DependencyInjection.cs",
+              "RelativeToolTip": "HotelManagement.Infrastructure\\DependencyInjection.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T13:17:27.607Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Room.cs",
+              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Room.cs",
+              "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\Room.cs",
+              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Room.cs",
+              "RelativeToolTip": "HotelManagement.Domain\\Entities\\Room.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAA9wB4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T14:07:36.353Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BookingsController.cs",
+              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\BookingsController.cs",
+              "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\BookingsController.cs",
+              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\BookingsController.cs",
+              "RelativeToolTip": "HotelManagement.API\\Controllers\\BookingsController.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAgwEAAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T15:16:49.392Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Common\\BaseEntity.cs",
               "RelativeDocumentMoniker": "HotelManagement.Domain\\Common\\BaseEntity.cs",
@@ -326,7 +318,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "GetDashboardStatsQuery.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Dashboard\\Queries\\GetDashboardStatsQuery.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Dashboard\\Queries\\GetDashboardStatsQuery.cs",
@@ -338,7 +330,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "GuestsController.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\GuestsController.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\GuestsController.cs",
@@ -350,7 +342,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "ReportsController.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\ReportsController.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\ReportsController.cs",
@@ -362,7 +354,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "JwtService.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Services\\JwtService.cs",
               "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Services\\JwtService.cs",
@@ -374,19 +366,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SuperAdminController.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\SuperAdminController.cs",
-              "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\SuperAdminController.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\SuperAdminController.cs",
-              "RelativeToolTip": "HotelManagement.API\\Controllers\\SuperAdminController.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAkwF0AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T15:07:53.035Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "UsersController.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\UsersController.cs",
@@ -398,7 +378,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "Tenant.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Tenant.cs",
               "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\Tenant.cs",
@@ -410,7 +390,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "DashboardController.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\DashboardController.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\DashboardController.cs",
@@ -422,7 +402,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "IJwtService.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Common\\Interfaces\\IJwtService.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Common\\Interfaces\\IJwtService.cs",
@@ -434,7 +414,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "RoomsController.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\RoomsController.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\RoomsController.cs",
@@ -446,7 +426,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "SettingsController.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Controllers\\SettingsController.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Controllers\\SettingsController.cs",
@@ -458,7 +438,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "CheckInCommand.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Bookings\\Commands\\CheckInCommand.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Bookings\\Commands\\CheckInCommand.cs",
@@ -470,7 +450,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "CreateBookingCommand.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Bookings\\Commands\\CreateBookingCommand.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Bookings\\Commands\\CreateBookingCommand.cs",
@@ -482,19 +462,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
-              "Title": "20260428143243_GuestNumber.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260428143243_GuestNumber.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260428143243_GuestNumber.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260428143243_GuestNumber.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260428143243_GuestNumber.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T14:32:44.466Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "Guest.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Guest.cs",
               "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\Guest.cs",
@@ -506,31 +474,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
-              "Title": "20260428144438_GuestNumberInGuest.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260428144438_GuestNumberInGuest.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260428144438_GuestNumberInGuest.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260428144438_GuestNumberInGuest.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260428144438_GuestNumberInGuest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T14:44:38.742Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 52,
-              "Title": "20260428145101_GuestNumberInGuestFK.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260428145101_GuestNumberInGuestFK.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260428145101_GuestNumberInGuestFK.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260428145101_GuestNumberInGuestFK.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260428145101_GuestNumberInGuestFK.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T14:51:01.548Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "Booking.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Booking.cs",
               "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\Booking.cs",
@@ -542,7 +486,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "tmpE319.tmp.cs",
               "DocumentMoniker": "C:\\Users\\HP\\AppData\\Local\\Temp\\tmpE319.tmp.cs",
               "ToolTip": "C:\\Users\\HP\\AppData\\Local\\Temp\\tmpE319.tmp.cs",
@@ -552,7 +496,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "CreateRoomCommand.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Rooms\\Commands\\CreateRoomCommand.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Rooms\\Commands\\CreateRoomCommand.cs",
@@ -564,7 +508,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "GetRoomsQuery.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Rooms\\Queries\\GetRoomsQuery.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Rooms\\Queries\\GetRoomsQuery.cs",
@@ -576,7 +520,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\appsettings.json",
               "RelativeDocumentMoniker": "HotelManagement.API\\appsettings.json",
@@ -588,7 +532,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Program.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Program.cs",
@@ -600,19 +544,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
-              "Title": "20260325141149_AddHotelSettingsTenant.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260325141149_AddHotelSettingsTenant.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260325141149_AddHotelSettingsTenant.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260325141149_AddHotelSettingsTenant.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260325141149_AddHotelSettingsTenant.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T14:11:49.479Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "Dockerfile",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\Dockerfile",
               "RelativeDocumentMoniker": "Dockerfile",
@@ -624,7 +556,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "ChangePasswordCommand.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Auth\\ChangePasswordCommand.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Auth\\ChangePasswordCommand.cs",
@@ -636,7 +568,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "GetRoomAvailabilityQuery.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Rooms\\Queries\\GetRoomAvailabilityQuery.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Rooms\\Queries\\GetRoomAvailabilityQuery.cs",
@@ -648,7 +580,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "GetReportQuery.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Reports\\Queries\\GetReportQuery.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Reports\\Queries\\GetReportQuery.cs",
@@ -660,7 +592,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 33,
               "Title": "CreateHotelSettingsCommandHandler.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Settings\\Commands\\CreateHotelSettingsCommandHandler.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Settings\\Commands\\CreateHotelSettingsCommandHandler.cs",
@@ -672,7 +604,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "CreateHotelSettingsCommand.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Settings\\Commands\\CreateHotelSettingsCommand.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Settings\\Commands\\CreateHotelSettingsCommand.cs",
@@ -684,7 +616,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 34,
               "Title": "HotelSettings.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\HotelSettings.cs",
               "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\HotelSettings.cs",
@@ -696,7 +628,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "IApplicationDbContext.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Common\\Interfaces\\IApplicationDbContext.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Common\\Interfaces\\IApplicationDbContext.cs",
@@ -708,19 +640,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
-              "Title": "20260325135544_AddHotelSettings.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260325135544_AddHotelSettings.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260325135544_AddHotelSettings.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260325135544_AddHotelSettings.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260325135544_AddHotelSettings.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T13:55:44.802Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 39,
               "Title": "GenerateBillRequest.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Models\\GenerateBillRequest.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Models\\GenerateBillRequest.cs",
@@ -732,7 +652,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "GetBillQuery.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Bookings\\Queries\\GetBillQuery.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Bookings\\Queries\\GetBillQuery.cs",
@@ -744,19 +664,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
-              "Title": "20260322161007_billss.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260322161007_billss.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260322161007_billss.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260322161007_billss.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260322161007_billss.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAxwBAAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T16:10:07.804Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Data\\ApplicationDbContext.cs",
@@ -768,7 +676,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "Bill.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Domain\\Entities\\Bill.cs",
               "RelativeDocumentMoniker": "HotelManagement.Domain\\Entities\\Bill.cs",
@@ -780,7 +688,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "UpdateRoomRequest.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Models\\UpdateRoomRequest.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Models\\UpdateRoomRequest.cs",
@@ -792,7 +700,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "UpdateRoomCommand.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Features\\Rooms\\Commands\\UpdateRoomCommand.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Features\\Rooms\\Commands\\UpdateRoomCommand.cs",
@@ -804,7 +712,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 43,
               "Title": "CreateRoomRequest.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.API\\Models\\CreateRoomRequest.cs",
               "RelativeDocumentMoniker": "HotelManagement.API\\Models\\CreateRoomRequest.cs",
@@ -816,7 +724,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 45,
               "Title": "IImageService.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Application\\Common\\Interfaces\\IImageService.cs",
               "RelativeDocumentMoniker": "HotelManagement.Application\\Common\\Interfaces\\IImageService.cs",
@@ -828,7 +736,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 44,
               "Title": "LocalImageService.cs",
               "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Services\\LocalImageService.cs",
               "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Services\\LocalImageService.cs",
@@ -837,42 +745,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-22T13:16:26.918Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
-              "Title": "DependencyInjection.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\DependencyInjection.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\DependencyInjection.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\DependencyInjection.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\DependencyInjection.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T13:17:27.607Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 45,
-              "Title": "20260316165631_InitialCreate.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260316165631_InitialCreate.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260316165631_InitialCreate.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260316165631_InitialCreate.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260316165631_InitialCreate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T16:56:32.237Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 46,
-              "Title": "20260318141631_roomimage.cs",
-              "DocumentMoniker": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260318141631_roomimage.cs",
-              "RelativeDocumentMoniker": "HotelManagement.Infrastructure\\Migrations\\20260318141631_roomimage.cs",
-              "ToolTip": "D:\\Company\\HotelManagementSaaS\\hotel-saas\\backend\\HotelManagement.Infrastructure\\Migrations\\20260318141631_roomimage.cs",
-              "RelativeToolTip": "HotelManagement.Infrastructure\\Migrations\\20260318141631_roomimage.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T14:16:31.677Z"
             }
           ]
         }

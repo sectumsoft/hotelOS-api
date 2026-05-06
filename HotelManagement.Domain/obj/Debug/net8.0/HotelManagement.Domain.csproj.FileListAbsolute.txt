@@ -10,3 +10,4 @@ D:\Company\HotelManagementSaaS\hotel-saas\backend\HotelManagement.Domain\obj\Deb
 D:\Company\HotelManagementSaaS\hotel-saas\backend\HotelManagement.Domain\obj\Debug\net8.0\refint\HotelManagement.Domain.dll
 D:\Company\HotelManagementSaaS\hotel-saas\backend\HotelManagement.Domain\obj\Debug\net8.0\HotelManagement.Domain.pdb
 D:\Company\HotelManagementSaaS\hotel-saas\backend\HotelManagement.Domain\obj\Debug\net8.0\ref\HotelManagement.Domain.dll
+D:\Company\HotelManagementSaaS\hotel-saas\backend\HotelManagement.Domain\obj\Debug\net8.0\HotelManagement.Domain.csproj.AssemblyReference.cache
