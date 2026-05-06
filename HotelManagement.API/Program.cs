@@ -41,7 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy => policy.WithOrigins("http://localhost:4200", "https://app.hotelos.com").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy => policy.WithOrigins("http://localhost:4200", "https://app.hotelos.com", "https://hotel-os-frontend-uw13.vercel.app").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(HotelManagement.Application.Common.Mappings.MappingProfile).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddInfrastructure(builder.Configuration);
