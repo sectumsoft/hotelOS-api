@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.git/
+**/.gitignore
+**/*.user
+**/appsettings.*.Local.json
+Dockerfile
+.dockerignore
+README*
+HotelManagement.API/wwwroot/Uploads/

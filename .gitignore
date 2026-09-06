@@ -1,1 +1,21 @@
-".vs/" 
+## .NET build output
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+## Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+## Local-only configuration — never commit real secrets
+appsettings.*.Local.json
+secrets.json
+
+## Locally uploaded files
+HotelManagement.API/wwwroot/Uploads/
+
+## OS
+.DS_Store
+Thumbs.db

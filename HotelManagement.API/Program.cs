@@ -10,6 +10,13 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Hosting platforms (Render, Railway, Fly, …) tell the app which port to listen
+// on via the $PORT environment variable. Locally $PORT is unset and Kestrel uses
+// the URLs from launchSettings.json / ASPNETCORE_URLS as before.
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrWhiteSpace(port))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -41,7 +48,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy => policy.WithOrigins("http://localhost:4200", "https://app.hotelos.com", "https://hotel-os-frontend-uw13.vercel.app").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+// Allowed front-end origins come from config ("Cors:Origins") or env vars
+// (Cors__Origins__0, Cors__Origins__1, …). Falls back to local dev.
+var corsOrigins = builder.Configuration.GetSection("Cors:Origins").Get<string[]>()
+                  ?? new[] { "http://localhost:4200" };
+builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
+    policy.WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(HotelManagement.Application.Common.Mappings.MappingProfile).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -72,7 +84,13 @@ app.UseStaticFiles(new StaticFileOptions
 //}
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseHttpsRedirection();
+
+// Behind a hosting proxy (Render, Railway, …) TLS is terminated at the edge and
+// the app receives plain HTTP on $PORT, so HTTPS redirection would loop. Only
+// enforce it for local development.
+if (app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
