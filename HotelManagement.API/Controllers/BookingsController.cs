@@ -64,6 +64,13 @@ public class BookingsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<ApiResponse<bool>>> Update(Guid id, [FromBody] CreateBookingCommand command)
     {
+        var result = await _mediator.Send(new UpdateBookingCommand(
+            id,
+            command.GuestName, command.GuestPhone, command.GuestAddress,
+            command.RoomId, command.CheckInDate, command.CheckOutDate,
+            command.NumberOfGuests, command.AdvancePaid, command.AdvanceAmount));
+
+        if (!result) return NotFound(ApiResponse<bool>.Fail("Booking not found"));
         return Ok(ApiResponse<bool>.Ok(true, "Booking updated"));
     }
 

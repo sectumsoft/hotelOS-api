@@ -23,6 +23,7 @@ public class BookingDto
     public DateTime CheckInDate { get; set; }
     public DateTime CheckOutDate { get; set; }
     public int TotalNights { get; set; }
+    public int NumberOfGuests { get; set; }
     public decimal TotalAmount { get; set; }
     public bool AdvancePaid { get; set; }
     public decimal AdvanceAmount { get; set; }

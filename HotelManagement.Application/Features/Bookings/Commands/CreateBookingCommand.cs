@@ -54,6 +54,16 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
         if (nights <= 0)
             throw new Exception("Check-out date must be after check-in date");
 
+        // Reject a room already booked for an overlapping date range.
+        var clash = await _context.Bookings.AnyAsync(b =>
+            b.RoomId == req.RoomId &&
+            b.TenantId == _tenantService.TenantId &&
+            b.Status != BookingStatus.Cancelled &&
+            b.Status != BookingStatus.CheckedOut &&
+            b.CheckInDate < checkOut && checkIn < b.CheckOutDate, ct);
+        if (clash)
+            throw new Exception("That room is already booked for the selected dates");
+
         var total = nights * room.PricePerNight;
 
         var advance = req.AdvancePaid ? Math.Max(0, req.AdvanceAmount) : 0m;
@@ -124,8 +134,8 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
 
         _context.Bookings.Add(booking);
 
-        // Update room status
-        room.Status = RoomStatus.Occupied;
+        // Room only becomes "Occupied" at check-in — a future reservation must not
+        // make the room look unavailable today (see CheckInCommandHandler).
 
         // Final save
         await _context.SaveChangesAsync(ct);

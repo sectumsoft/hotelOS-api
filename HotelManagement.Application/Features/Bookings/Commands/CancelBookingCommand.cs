@@ -20,8 +20,14 @@ public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand,
         var booking = await _context.Bookings.Include(b => b.Room)
             .FirstOrDefaultAsync(b => b.Id == req.BookingId && b.TenantId == _tenantService.TenantId, ct);
         if (booking == null) return false;
+
+        // Only release the room if this booking actually had someone in it.
+        // A future (Confirmed) booking never occupied the room, so cancelling it
+        // must not flip a room that another guest is currently checked into.
+        if (booking.Status == BookingStatus.CheckedIn && booking.Room != null)
+            booking.Room.Status = RoomStatus.Available;
+
         booking.Status = BookingStatus.Cancelled;
-        booking.Room.Status = RoomStatus.Available;
         booking.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(ct);
         return true;
