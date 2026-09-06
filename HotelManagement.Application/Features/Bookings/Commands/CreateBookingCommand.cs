@@ -42,14 +42,25 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
         // Basic validation
         if (req.NumberOfGuests <= 0)
             throw new Exception("Number of guests must be at least 1");
+
+        // Normalise the incoming dates to UTC (an <input type="date"> value arrives
+        // without a time zone) and drop any time component.
+        var checkIn = DateTime.SpecifyKind(req.CheckInDate.Date, DateTimeKind.Utc);
+        var checkOut = DateTime.SpecifyKind(req.CheckOutDate.Date, DateTimeKind.Utc);
+
         // Calculate booking totals
-        var nights = (int)(req.CheckOutDate - req.CheckInDate).TotalDays;
+        var nights = (int)(checkOut - checkIn).TotalDays;
 
         if (nights <= 0)
             throw new Exception("Check-out date must be after check-in date");
 
         var total = nights * room.PricePerNight;
-        var balance = total - (req.AdvancePaid ? req.AdvanceAmount : 0);
+
+        var advance = req.AdvancePaid ? Math.Max(0, req.AdvanceAmount) : 0m;
+        if (advance > total)
+            throw new Exception("Advance amount cannot exceed the total booking amount");
+
+        var balance = total - advance;
 
         // MAIN GUEST: Find or create
         var mainGuest = await _context.Guests.FirstOrDefaultAsync(
@@ -96,14 +107,14 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
             GuestAddress = req.GuestAddress,
 
             RoomId = req.RoomId,
-            CheckInDate = req.CheckInDate,
-            CheckOutDate = req.CheckOutDate,
+            CheckInDate = checkIn,
+            CheckOutDate = checkOut,
 
             TotalNights = nights,
             TotalAmount = total,
 
-            AdvancePaid = req.AdvancePaid,
-            AdvanceAmount = req.AdvancePaid ? req.AdvanceAmount : 0,
+            AdvancePaid = advance > 0,
+            AdvanceAmount = advance,
             BalanceAmount = balance,
 
             Status = BookingStatus.Confirmed,

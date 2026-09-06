@@ -6,7 +6,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
+using HotelManagement.API.Middleware;
 
+// Accept DateTime values that aren't tagged UTC (e.g. an <input type="date"> value
+// like "2026-09-07" binds as Kind=Unspecified). Without this, Npgsql throws when
+// writing them to 'timestamp with time zone' columns — which broke booking create,
+// check-in, and any date-filtered query.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +72,8 @@ using (var scope = app.Services.CreateScope())
     await DbInitializer.SeedAsync(db);
 }
 
-
+// Turn unhandled exceptions into a JSON body (and a log line) instead of a bare 500.
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors();
 
