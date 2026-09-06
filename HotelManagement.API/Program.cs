@@ -70,10 +70,14 @@ using (var scope = app.Services.CreateScope())
 
 app.UseCors();
 
+// Serve uploaded files (guest ID proofs, room images) from wwwroot at the root
+// path. A fresh container has no wwwroot, so create it first — PhysicalFileProvider
+// throws on a missing directory.
+var webRoot = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+Directory.CreateDirectory(Path.Combine(webRoot, "Uploads", "rooms"));
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
+    FileProvider = new PhysicalFileProvider(webRoot),
     RequestPath = ""
 });
 

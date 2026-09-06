@@ -20,6 +20,7 @@ RUN dotnet publish HotelManagement.API/HotelManagement.API.csproj -c Release -o 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app .
+RUN mkdir -p /app/wwwroot/Uploads/rooms
 
 # Real values are injected by the host as environment variables:
 #   ASPNETCORE_ENVIRONMENT, ConnectionStrings__DefaultConnection, Jwt__Secret,
