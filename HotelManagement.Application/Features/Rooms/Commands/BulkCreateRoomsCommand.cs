@@ -75,14 +75,14 @@ public class BulkCreateRoomsCommandHandler : IRequestHandler<BulkCreateRoomsComm
 
             if (!Enum.TryParse<RoomType>(row.RoomType?.Trim(), ignoreCase: true, out var roomType))
             {
-                result.Skipped.Add(new BulkRoomError { Row = row.Row, RoomNumber = number, Reason = $"Invalid room type '{row.RoomType}' — use Standard, Deluxe or Suite" });
+                result.Skipped.Add(new BulkRoomError { Row = row.Row, RoomNumber = number, Reason = $"Invalid room type '{row.RoomType}' - use Standard, Deluxe or Suite" });
                 continue;
             }
 
             var statusRaw = string.IsNullOrWhiteSpace(row.Status) ? "Available" : row.Status.Trim();
             if (!Enum.TryParse<RoomStatus>(statusRaw, ignoreCase: true, out var status))
             {
-                result.Skipped.Add(new BulkRoomError { Row = row.Row, RoomNumber = number, Reason = $"Invalid status '{row.Status}' — use Available, Occupied or Maintenance" });
+                result.Skipped.Add(new BulkRoomError { Row = row.Row, RoomNumber = number, Reason = $"Invalid status '{row.Status}' - use Available, Occupied or Maintenance" });
                 continue;
             }
 
