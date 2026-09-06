@@ -6,6 +6,7 @@ using HotelManagement.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace HotelManagement.API.Controllers;
 
@@ -76,6 +77,25 @@ public class RoomsController : ControllerBase
 
         var id = await _mediator.Send(command);
         return Ok(ApiResponse<Guid>.Ok(id, "Room created successfully"));
+    }
+
+    // Bulk import from a spreadsheet — the client parses the file and posts rows as JSON.
+    [HttpPost("bulk")]
+    public async Task<ActionResult<ApiResponse<BulkCreateRoomsResult>>> BulkCreate([FromBody] BulkCreateRoomsRequest request)
+    {
+        if (request?.Rooms == null || request.Rooms.Count == 0)
+            return BadRequest(ApiResponse<BulkCreateRoomsResult>.Fail("No rooms provided."));
+        if (request.Rooms.Count > 500)
+            return BadRequest(ApiResponse<BulkCreateRoomsResult>.Fail("Maximum 500 rooms per upload."));
+
+        var rows = request.Rooms
+            .Select(r => new BulkRoomRow(r.Row, r.RoomNumber, r.RoomType, r.PricePerNight, r.Description, r.Status, r.Amenities))
+            .ToList();
+
+        var result = await _mediator.Send(new BulkCreateRoomsCommand(rows));
+        var message = $"{result.Added} room(s) added"
+            + (result.Skipped.Count > 0 ? $", {result.Skipped.Count} skipped" : "");
+        return Ok(ApiResponse<BulkCreateRoomsResult>.Ok(result, message));
     }
 
     [HttpPut("{id}")]
