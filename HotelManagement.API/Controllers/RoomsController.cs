@@ -1,4 +1,5 @@
 using HotelManagement.Application.Common.Interfaces;
+using HotelManagement.API.Middleware;
 using HotelManagement.Application.Common.Models;
 using HotelManagement.Application.Features.Rooms.Commands;
 using HotelManagement.Application.Features.Rooms.Queries;
@@ -13,6 +14,7 @@ namespace HotelManagement.API.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[ModuleAccess("rooms")]
 public class RoomsController : ControllerBase
 {
     private readonly IMediator _mediator;

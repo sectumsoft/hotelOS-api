@@ -23,6 +23,9 @@ public class UserDto
     public string Role { get; set; } = string.Empty;
     public Guid? TenantId { get; set; }
     public string? Avatar { get; set; }
+
+    /// <summary>Module keys a Staff user may access. Empty for admins (full access).</summary>
+    public List<string> Modules { get; set; } = new();
 }
 
 public class TenantDto
@@ -68,7 +71,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResultDto?
                 Email = user.Email,
                 Role = user.Role.ToString(),
                 TenantId = user.TenantId,
-                Avatar = user.AvatarUrl
+                Avatar = user.AvatarUrl,
+                Modules = string.IsNullOrWhiteSpace(user.Permissions)
+                    ? new List<string>()
+                    : user.Permissions.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
             },
             Tenant = user.Tenant == null ? null : new TenantDto  // ← null check here
             {

@@ -23,7 +23,7 @@ var port = Environment.GetEnvironmentVariable("PORT");
 if (!string.IsNullOrWhiteSpace(port))
     builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(o => o.Filters.Add<HotelManagement.API.Middleware.ModuleAccessFilter>());
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>

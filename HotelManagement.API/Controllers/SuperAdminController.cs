@@ -44,6 +44,7 @@ public class UserListDto
     public string Email { get; set; } = "";
     public string Role { get; set; } = "";
     public bool IsActive { get; set; }
+    public List<string> Modules { get; set; } = new();
 }
 
 // ── Controller ────────────────────────────────────────

@@ -29,6 +29,10 @@ public class JwtService : IJwtService
         // SuperAdmin has no tenant — only emit the claim when one exists.
         if (user.TenantId.HasValue)
             claims.Add(new Claim("tenantId", user.TenantId.Value.ToString()));
+
+        // Module access for Staff (admins are unrestricted).
+        if (user.Role == Domain.Enums.UserRole.Staff && !string.IsNullOrWhiteSpace(user.Permissions))
+            claims.Add(new Claim("perm", user.Permissions));
         var token = new JwtSecurityToken(
             issuer: _config["Jwt:Issuer"],
             audience: _config["Jwt:Audience"],

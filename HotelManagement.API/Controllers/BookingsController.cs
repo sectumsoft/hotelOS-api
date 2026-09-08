@@ -1,4 +1,5 @@
 using HotelManagement.Application.Common.Models;
+using HotelManagement.API.Middleware;
 using HotelManagement.Application.Features.Bookings.Commands;
 using HotelManagement.Application.Features.Bookings.Queries;
 using MediatR;
@@ -27,6 +28,7 @@ public class CheckInGuestFormDto
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[ModuleAccess("bookings")]
 public class BookingsController : ControllerBase
 {
     private readonly IMediator _mediator;

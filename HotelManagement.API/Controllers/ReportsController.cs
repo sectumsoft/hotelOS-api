@@ -1,4 +1,5 @@
 using System.Text;
+using HotelManagement.API.Middleware;
 using HotelManagement.Application.Common.Interfaces;
 using HotelManagement.Application.Common.Models;
 using HotelManagement.Domain.Enums;
@@ -26,6 +27,7 @@ public class ReportRowDto
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[ModuleAccess("reports")]
 public class ReportsController : ControllerBase
 {
     private readonly IApplicationDbContext _context;

@@ -1,4 +1,5 @@
 using HotelManagement.Application.Common.Interfaces;
+using HotelManagement.API.Middleware;
 using HotelManagement.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ public class GuestDto
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[ModuleAccess("guests")]
 public class GuestsController : ControllerBase
 {
     private readonly IApplicationDbContext _context;

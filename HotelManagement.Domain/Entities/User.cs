@@ -10,6 +10,9 @@ public class User : BaseEntity
     public UserRole Role { get; set; } = UserRole.Staff;
     public string? AvatarUrl { get; set; }
     public bool IsActive { get; set; } = true;
+
+    /// <summary>Comma-separated module keys a Staff user may access (rooms,bookings,guests,reports). Ignored for admins.</summary>
+    public string? Permissions { get; set; }
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpiry { get; set; }
     public Tenant Tenant { get; set; } = null!;
