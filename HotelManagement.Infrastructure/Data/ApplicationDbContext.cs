@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Room> Rooms => Set<Room>();
+    public DbSet<RoomType> RoomTypes => Set<RoomType>();
     public DbSet<RoomImage> RoomImages => Set<RoomImage>();
     public DbSet<Amenity> Amenities => Set<Amenity>();
     public DbSet<RoomAmenity> RoomAmenities => Set<RoomAmenity>();
@@ -37,6 +38,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         });
 
         mb.Entity<RoomAmenity>(e => { e.HasKey(x => new { x.RoomId, x.AmenityId }); e.HasOne(x => x.Room).WithMany(r => r.RoomAmenities).HasForeignKey(x => x.RoomId); e.HasOne(x => x.Amenity).WithMany(a => a.RoomAmenities).HasForeignKey(x => x.AmenityId); });
+
+        mb.Entity<RoomType>(e => {
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Name).HasMaxLength(60).IsRequired();
+            e.HasIndex(x => new { x.Name, x.TenantId }).IsUnique();
+        });
 
         mb.Entity<Booking>(e => {
             e.HasKey(x => x.Id);

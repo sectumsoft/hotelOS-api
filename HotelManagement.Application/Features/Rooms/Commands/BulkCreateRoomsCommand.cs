@@ -61,6 +61,11 @@ public class BulkCreateRoomsCommandHandler : IRequestHandler<BulkCreateRoomsComm
         var amenityCache = new Dictionary<string, Amenity>(StringComparer.OrdinalIgnoreCase);
         foreach (var a in amenityList) amenityCache[a.Name] = a;
 
+        // Room types defined for this hotel (case-insensitive), for validation.
+        var typeNames = await RoomTypeResolver.GetNamesAsync(_context, tenantId, ct);
+        var typeLookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var n in typeNames) typeLookup[n] = n;
+
         var seenInBatch = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var toAdd = new List<Room>();
 
@@ -73,9 +78,9 @@ public class BulkCreateRoomsCommandHandler : IRequestHandler<BulkCreateRoomsComm
                 continue;
             }
 
-            if (!Enum.TryParse<RoomType>(row.RoomType?.Trim(), ignoreCase: true, out var roomType))
+            if (!typeLookup.TryGetValue(row.RoomType?.Trim() ?? string.Empty, out var roomType))
             {
-                result.Skipped.Add(new BulkRoomError { Row = row.Row, RoomNumber = number, Reason = $"Invalid room type '{row.RoomType}' - use Standard, Deluxe or Suite" });
+                result.Skipped.Add(new BulkRoomError { Row = row.Row, RoomNumber = number, Reason = $"Unknown room type '{row.RoomType}' - use one of: {string.Join(", ", typeNames)}" });
                 continue;
             }
 

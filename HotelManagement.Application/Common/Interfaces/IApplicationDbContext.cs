@@ -8,6 +8,7 @@ public interface IApplicationDbContext
     DbSet<Tenant> Tenants { get; }
     DbSet<User> Users { get; }
     DbSet<Room> Rooms { get; }
+    DbSet<RoomType> RoomTypes { get; }
     DbSet<RoomImage> RoomImages { get; }
     DbSet<Amenity> Amenities { get; }
     DbSet<RoomAmenity> RoomAmenities { get; }

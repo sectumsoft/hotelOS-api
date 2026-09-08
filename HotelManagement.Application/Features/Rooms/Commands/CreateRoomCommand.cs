@@ -19,11 +19,13 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
 
     public async Task<Guid> Handle(CreateRoomCommand request, CancellationToken ct)
     {
+        var roomType = await RoomTypeResolver.ResolveAsync(_context, _tenantService.TenantId, request.RoomType, ct);
+
         var room = new Room
         {
             TenantId = _tenantService.TenantId,
             RoomNumber = request.RoomNumber,
-            RoomType = Enum.Parse<RoomType>(request.RoomType),
+            RoomType = roomType,
             PricePerNight = request.PricePerNight,
             Description = request.Description,
             Status = Enum.Parse<RoomStatus>(request.Status)

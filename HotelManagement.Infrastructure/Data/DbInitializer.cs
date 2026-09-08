@@ -36,14 +36,18 @@ public static class DbInitializer
                 IsActive = true
             });
 
+            context.RoomTypes.AddRange(
+                new[] { "Standard", "Deluxe", "Suite" }
+                    .Select(n => new RoomType { TenantId = tenant.Id, Name = n }));
+
             var rooms = new[]
             {
-                new Room { TenantId = tenant.Id, RoomNumber = "101", RoomType = RoomType.Standard, PricePerNight = 89, Status = RoomStatus.Available, Description = "Cozy standard room with garden view" },
-                new Room { TenantId = tenant.Id, RoomNumber = "102", RoomType = RoomType.Standard, PricePerNight = 89, Status = RoomStatus.Occupied, Description = "Cozy standard room with garden view" },
-                new Room { TenantId = tenant.Id, RoomNumber = "201", RoomType = RoomType.Deluxe, PricePerNight = 149, Status = RoomStatus.Available, Description = "Spacious deluxe room with city view" },
-                new Room { TenantId = tenant.Id, RoomNumber = "202", RoomType = RoomType.Deluxe, PricePerNight = 149, Status = RoomStatus.Available, Description = "Spacious deluxe room with pool view" },
-                new Room { TenantId = tenant.Id, RoomNumber = "301", RoomType = RoomType.Suite, PricePerNight = 299, Status = RoomStatus.Available, Description = "Luxury suite with panoramic views" },
-                new Room { TenantId = tenant.Id, RoomNumber = "302", RoomType = RoomType.Suite, PricePerNight = 349, Status = RoomStatus.Maintenance, Description = "Presidential suite" },
+                new Room { TenantId = tenant.Id, RoomNumber = "101", RoomType = "Standard", PricePerNight = 89, Status = RoomStatus.Available, Description = "Cozy standard room with garden view" },
+                new Room { TenantId = tenant.Id, RoomNumber = "102", RoomType = "Standard", PricePerNight = 89, Status = RoomStatus.Occupied, Description = "Cozy standard room with garden view" },
+                new Room { TenantId = tenant.Id, RoomNumber = "201", RoomType = "Deluxe", PricePerNight = 149, Status = RoomStatus.Available, Description = "Spacious deluxe room with city view" },
+                new Room { TenantId = tenant.Id, RoomNumber = "202", RoomType = "Deluxe", PricePerNight = 149, Status = RoomStatus.Available, Description = "Spacious deluxe room with pool view" },
+                new Room { TenantId = tenant.Id, RoomNumber = "301", RoomType = "Suite", PricePerNight = 299, Status = RoomStatus.Available, Description = "Luxury suite with panoramic views" },
+                new Room { TenantId = tenant.Id, RoomNumber = "302", RoomType = "Suite", PricePerNight = 349, Status = RoomStatus.Maintenance, Description = "Presidential suite" },
             };
             context.Rooms.AddRange(rooms);
 

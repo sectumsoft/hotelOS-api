@@ -38,8 +38,8 @@ public class GetReportQueryHandler : IRequestHandler<GetReportQuery, PagedResult
 
         if (!string.IsNullOrEmpty(req.Status) && Enum.TryParse<BookingStatus>(req.Status, out var bs))
             query = query.Where(b => b.Status == bs);
-        if (!string.IsNullOrEmpty(req.RoomType) && Enum.TryParse<RoomType>(req.RoomType, out var rt))
-            query = query.Where(b => b.Room.RoomType == rt);
+        if (!string.IsNullOrEmpty(req.RoomType))
+            query = query.Where(b => b.Room.RoomType == req.RoomType);
 
         var total = await query.CountAsync(ct);
         var items = await query.OrderByDescending(b => b.CheckInDate)
@@ -48,7 +48,7 @@ public class GetReportQueryHandler : IRequestHandler<GetReportQuery, PagedResult
         var rows = items.Select(b => new ReportRowDto
         {
             BookingNumber = b.BookingNumber, GuestName = b.GuestName,
-            RoomNumber = b.Room.RoomNumber, RoomType = b.Room.RoomType.ToString(),
+            RoomNumber = b.Room.RoomNumber, RoomType = b.Room.RoomType,
             CheckInDate = b.CheckInDate.ToString("yyyy-MM-dd"), CheckOutDate = b.CheckOutDate.ToString("yyyy-MM-dd"),
             Nights = b.TotalNights, TotalAmount = b.TotalAmount, AdvanceAmount = b.AdvanceAmount,
             BalanceAmount = b.BalanceAmount, Status = b.Status.ToString()

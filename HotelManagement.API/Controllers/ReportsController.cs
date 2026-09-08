@@ -49,8 +49,8 @@ public class ReportsController : ControllerBase
 
         if (!string.IsNullOrEmpty(status) && Enum.TryParse<BookingStatus>(status, out var bs))
             query = query.Where(b => b.Status == bs);
-        if (!string.IsNullOrEmpty(roomType) && Enum.TryParse<RoomType>(roomType, out var rt))
-            query = query.Where(b => b.Room.RoomType == rt);
+        if (!string.IsNullOrEmpty(roomType))
+            query = query.Where(b => b.Room.RoomType == roomType);
 
         var total = await query.CountAsync();
         var items = await query.OrderByDescending(b => b.CheckInDate)
@@ -61,7 +61,7 @@ public class ReportsController : ControllerBase
             BookingNumber = b.BookingNumber,
             GuestName = b.GuestName,
             RoomNumber = b.Room.RoomNumber,
-            RoomType = b.Room.RoomType.ToString(),
+            RoomType = b.Room.RoomType,
             CheckInDate = b.CheckInDate.ToString("yyyy-MM-dd"),
             CheckOutDate = b.CheckOutDate.ToString("yyyy-MM-dd"),
             Nights = b.TotalNights,

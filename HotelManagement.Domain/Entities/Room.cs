@@ -5,7 +5,7 @@ namespace HotelManagement.Domain.Entities;
 public class Room : BaseEntity
 {
     public string RoomNumber { get; set; } = string.Empty;
-    public RoomType RoomType { get; set; }
+    public string RoomType { get; set; } = string.Empty;
     public decimal PricePerNight { get; set; }
     public string? Description { get; set; }
     public RoomStatus Status { get; set; } = RoomStatus.Available;

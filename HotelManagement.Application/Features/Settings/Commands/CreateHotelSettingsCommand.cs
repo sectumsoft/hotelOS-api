@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using MediatR;
 
 namespace HotelManagement.Application.Features.Settings.Commands;
 
+/// <summary>Create-or-update the hotel profile for the current tenant.</summary>
 public record CreateHotelSettingsCommand(
     string HotelName,
     string Subdomain,

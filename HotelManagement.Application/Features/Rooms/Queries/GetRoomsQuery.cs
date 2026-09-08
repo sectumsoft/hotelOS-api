@@ -56,8 +56,8 @@ public class GetRoomsQueryHandler : IRequestHandler<GetRoomsQuery, PagedResult<R
             query = query.Where(r => r.RoomNumber.Contains(request.Search) || r.Description!.Contains(request.Search));
         if (!string.IsNullOrWhiteSpace(request.Status) && Enum.TryParse<HotelManagement.Domain.Enums.RoomStatus>(request.Status, out var status))
             query = query.Where(r => r.Status == status);
-        if (!string.IsNullOrWhiteSpace(request.RoomType) && Enum.TryParse<HotelManagement.Domain.Enums.RoomType>(request.RoomType, out var type))
-            query = query.Where(r => r.RoomType == type);
+        if (!string.IsNullOrWhiteSpace(request.RoomType))
+            query = query.Where(r => r.RoomType == request.RoomType);
 
         var total = await query.CountAsync(ct);
         var items = await query

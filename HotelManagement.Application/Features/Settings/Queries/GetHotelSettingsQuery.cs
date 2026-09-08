@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using HotelManagement.Application.Common.Interfaces;
 
@@ -37,23 +37,44 @@ public class GetHotelSettingsQueryHandler
 
     public async Task<HotelSettingsDto?> Handle(GetHotelSettingsQuery request, CancellationToken ct)
     {
+        var tenantId = _tenantService.TenantId;
+
         var settings = await _context.HotelSettings
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.TenantId == _tenantService.TenantId, ct);
+            .FirstOrDefaultAsync(x => x.TenantId == tenantId, ct);
 
-        if (settings == null) return null;
+        if (settings != null)
+        {
+            return new HotelSettingsDto
+            {
+                Id = settings.Id,
+                TenantId = settings.TenantId,
+                HotelName = settings.HotelName,
+                Subdomain = settings.Subdomain,
+                Email = settings.Email,
+                Phone = settings.Phone,
+                Address = settings.Address,
+                CreatedAt = settings.CreatedAt,
+                UpdatedAt = settings.UpdatedAt
+            };
+        }
+
+        // No settings row yet — seed the view from what the SuperAdmin created
+        // when onboarding this hotel (the Tenant record).
+        var tenant = await _context.Tenants
+            .AsNoTracking()
+            .FirstOrDefaultAsync(t => t.Id == tenantId, ct);
+
+        if (tenant == null) return null;
 
         return new HotelSettingsDto
         {
-            Id = settings.Id,
-            TenantId = settings.TenantId,
-            HotelName = settings.HotelName,
-            Subdomain = settings.Subdomain,
-            Email = settings.Email,
-            Phone = settings.Phone,
-            Address = settings.Address,
-            CreatedAt = settings.CreatedAt,
-            UpdatedAt = settings.UpdatedAt
+            TenantId = tenant.Id,
+            HotelName = tenant.Name,
+            Subdomain = tenant.Subdomain,
+            Email = string.Empty,
+            Phone = string.Empty,
+            Address = string.Empty
         };
     }
 }

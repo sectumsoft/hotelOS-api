@@ -81,7 +81,7 @@ public class GetBillQueryHandler : IRequestHandler<GetBillQuery, BillDto?>
             GuestAddress = bill.Booking.GuestAddress,
 
             RoomNumber = bill.Booking.Room.RoomNumber,
-            RoomType = bill.Booking.Room.RoomType.ToString(),
+            RoomType = bill.Booking.Room.RoomType,
             CheckInDate = bill.Booking.CheckInDate,
             CheckOutDate = bill.Booking.CheckOutDate,
             TotalNights = bill.Booking.TotalNights,

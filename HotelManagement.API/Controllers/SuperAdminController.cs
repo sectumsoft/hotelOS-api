@@ -109,6 +109,10 @@ public class SuperAdminController : ControllerBase
         };
         _db.Users.Add(admin);
 
+        // 4. Give the new hotel the default room types (editable in Settings)
+        foreach (var name in new[] { "Standard", "Deluxe", "Suite" })
+            _db.RoomTypes.Add(new HotelManagement.Domain.Entities.RoomType { TenantId = tenant.Id, Name = name });
+
         await _db.SaveChangesAsync(CancellationToken.None);
 
         return Ok(ApiResponse<Guid>.Ok(tenant.Id, "Hotel onboarded successfully"));

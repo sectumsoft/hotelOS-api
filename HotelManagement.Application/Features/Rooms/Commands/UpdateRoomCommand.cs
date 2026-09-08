@@ -29,7 +29,7 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, bool>
         if (room == null) return false;
 
         room.RoomNumber = request.RoomNumber;
-        room.RoomType = Enum.Parse<RoomType>(request.RoomType);
+        room.RoomType = await RoomTypeResolver.ResolveAsync(_context, _tenantService.TenantId, request.RoomType, ct);
         room.PricePerNight = request.PricePerNight;
         room.Description = request.Description;
         room.Status = Enum.Parse<RoomStatus>(request.Status);
