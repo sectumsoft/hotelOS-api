@@ -21,6 +21,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Bill> Bills => Set<Bill>();
     public DbSet<BillItem> BillItems => Set<BillItem>();
     public DbSet<HotelSettings> HotelSettings => Set<HotelSettings>();
+    public DbSet<Notification> Notifications => Set<Notification>();
     protected override void OnModelCreating(ModelBuilder mb)
     {
         base.OnModelCreating(mb);
@@ -59,5 +60,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
         // Companions captured at check-in are looked up by BookingId for the Guest 360.
         mb.Entity<Guest>(e => e.HasIndex(x => x.BookingId));
+
+        mb.Entity<Notification>(e => {
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Type).HasMaxLength(40).IsRequired();
+            e.Property(x => x.Title).HasMaxLength(120).IsRequired();
+            e.HasIndex(x => new { x.TenantId, x.CreatedAt });
+        });
     }
 }

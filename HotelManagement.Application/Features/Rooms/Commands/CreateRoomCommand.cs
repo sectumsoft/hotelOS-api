@@ -13,9 +13,10 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public CreateRoomCommandHandler(IApplicationDbContext context, ITenantService tenantService)
-    { _context = context; _tenantService = tenantService; }
+    public CreateRoomCommandHandler(IApplicationDbContext context, ITenantService tenantService, INotificationRecorder notify)
+    { _context = context; _tenantService = tenantService; _notify = notify; }
 
     public async Task<Guid> Handle(CreateRoomCommand request, CancellationToken ct)
     {
@@ -52,6 +53,10 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
         }
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync(ct);
+
+        await _notify.RecordAsync("room-created", "Room added",
+            $"Room {room.RoomNumber} ({room.RoomType}) was added", "/rooms", room.Id.ToString(), ct);
+
         return room.Id;
     }
 }

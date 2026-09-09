@@ -13,11 +13,13 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public GenerateBillCommandHandler(IApplicationDbContext context, ITenantService tenantService)
+    public GenerateBillCommandHandler(IApplicationDbContext context, ITenantService tenantService, INotificationRecorder notify)
     {
         _context = context;
         _tenantService = tenantService;
+        _notify = notify;
     }
 
     public async Task<Guid> Handle(GenerateBillCommand request, CancellationToken ct)
@@ -104,6 +106,9 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
 
         _context.Bills.Add(bill);
         await _context.SaveChangesAsync(ct);
+
+        await _notify.RecordAsync("bill-generated", "Bill generated",
+            $"{bill.BillNumber} · {booking.GuestName} · ₹{bill.TotalAmount:0}", "/bookings", booking.Id.ToString(), ct);
         return bill.Id;
     }
 }

@@ -11,9 +11,10 @@ public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand,
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public CancelBookingCommandHandler(IApplicationDbContext ctx, ITenantService ts)
-    { _context = ctx; _tenantService = ts; }
+    public CancelBookingCommandHandler(IApplicationDbContext ctx, ITenantService ts, INotificationRecorder notify)
+    { _context = ctx; _tenantService = ts; _notify = notify; }
 
     public async Task<bool> Handle(CancelBookingCommand req, CancellationToken ct)
     {
@@ -30,6 +31,9 @@ public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand,
         booking.Status = BookingStatus.Cancelled;
         booking.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(ct);
+
+        await _notify.RecordAsync("booking-cancelled", "Booking cancelled",
+            $"{booking.BookingNumber} · {booking.GuestName}", "/bookings", booking.Id.ToString(), ct);
         return true;
     }
 }

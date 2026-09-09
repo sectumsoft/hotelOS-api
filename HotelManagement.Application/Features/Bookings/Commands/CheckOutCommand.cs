@@ -11,9 +11,10 @@ public class CheckOutCommandHandler : IRequestHandler<CheckOutCommand, bool>
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public CheckOutCommandHandler(IApplicationDbContext ctx, ITenantService ts)
-    { _context = ctx; _tenantService = ts; }
+    public CheckOutCommandHandler(IApplicationDbContext ctx, ITenantService ts, INotificationRecorder notify)
+    { _context = ctx; _tenantService = ts; _notify = notify; }
 
     public async Task<bool> Handle(CheckOutCommand req, CancellationToken ct)
     {
@@ -24,6 +25,9 @@ public class CheckOutCommandHandler : IRequestHandler<CheckOutCommand, bool>
         booking.Room.Status = RoomStatus.Available;
         booking.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(ct);
+
+        await _notify.RecordAsync("check-out", "Guest checked out",
+            $"{booking.GuestName} · Room {booking.Room?.RoomNumber}", "/bookings", booking.Id.ToString(), ct);
         return true;
     }
 }

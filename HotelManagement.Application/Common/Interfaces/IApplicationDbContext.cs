@@ -19,4 +19,5 @@ public interface IApplicationDbContext
     DbSet<Bill> Bills { get; }
     DbSet<BillItem> BillItems { get; }
     DbSet<HotelSettings> HotelSettings { get; }
+    DbSet<Notification> Notifications { get; }
 }

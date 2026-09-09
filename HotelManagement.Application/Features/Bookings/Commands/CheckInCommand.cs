@@ -25,11 +25,13 @@ public class CheckInCommandHandler : IRequestHandler<CheckInCommand, bool>
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public CheckInCommandHandler(IApplicationDbContext ctx, ITenantService ts)
+    public CheckInCommandHandler(IApplicationDbContext ctx, ITenantService ts, INotificationRecorder notify)
     {
         _context = ctx;
         _tenantService = ts;
+        _notify = notify;
     }
 
     public async Task<bool> Handle(CheckInCommand req, CancellationToken ct)
@@ -106,6 +108,11 @@ public class CheckInCommandHandler : IRequestHandler<CheckInCommand, bool>
         booking.Room.Status = RoomStatus.Occupied;
         booking.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(ct);
+
+        var partySize = req.Guests?.Count ?? 1;
+        await _notify.RecordAsync("check-in", "Guest checked in",
+            $"{booking.GuestName} · Room {booking.Room?.RoomNumber}" + (partySize > 1 ? $" · {partySize} guests" : ""),
+            "/bookings", booking.Id.ToString(), ct);
 
         return true;
     }

@@ -21,11 +21,13 @@ public class UpdateBookingCommandHandler : IRequestHandler<UpdateBookingCommand,
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public UpdateBookingCommandHandler(IApplicationDbContext ctx, ITenantService ts)
+    public UpdateBookingCommandHandler(IApplicationDbContext ctx, ITenantService ts, INotificationRecorder notify)
     {
         _context = ctx;
         _tenantService = ts;
+        _notify = notify;
     }
 
     public async Task<bool> Handle(UpdateBookingCommand req, CancellationToken ct)
@@ -83,6 +85,9 @@ public class UpdateBookingCommandHandler : IRequestHandler<UpdateBookingCommand,
         booking.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync(ct);
+
+        await _notify.RecordAsync("booking-updated", "Booking updated",
+            $"{booking.BookingNumber} · {booking.GuestName}", "/bookings", booking.Id.ToString(), ct);
         return true;
     }
 }

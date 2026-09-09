@@ -35,11 +35,13 @@ public class BulkCreateRoomsCommandHandler : IRequestHandler<BulkCreateRoomsComm
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public BulkCreateRoomsCommandHandler(IApplicationDbContext context, ITenantService tenantService)
+    public BulkCreateRoomsCommandHandler(IApplicationDbContext context, ITenantService tenantService, INotificationRecorder notify)
     {
         _context = context;
         _tenantService = tenantService;
+        _notify = notify;
     }
 
     public async Task<BulkCreateRoomsResult> Handle(BulkCreateRoomsCommand request, CancellationToken ct)
@@ -142,6 +144,9 @@ public class BulkCreateRoomsCommandHandler : IRequestHandler<BulkCreateRoomsComm
         {
             _context.Rooms.AddRange(toAdd);
             await _context.SaveChangesAsync(ct);
+
+            await _notify.RecordAsync("rooms-imported", "Rooms imported",
+                $"{toAdd.Count} room(s) added from a spreadsheet", "/rooms", null, ct);
         }
 
         result.Added = toAdd.Count;

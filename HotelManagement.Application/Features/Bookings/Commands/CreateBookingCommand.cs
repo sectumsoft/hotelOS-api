@@ -24,11 +24,13 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public CreateBookingCommandHandler(IApplicationDbContext ctx, ITenantService ts)
+    public CreateBookingCommandHandler(IApplicationDbContext ctx, ITenantService ts, INotificationRecorder notify)
     {
         _context = ctx;
         _tenantService = ts;
+        _notify = notify;
     }
 
     public async Task<Guid> Handle(CreateBookingCommand req, CancellationToken ct)
@@ -139,6 +141,9 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
 
         // Final save
         await _context.SaveChangesAsync(ct);
+
+        await _notify.RecordAsync("booking-created", "New booking",
+            $"{booking.BookingNumber} · {booking.GuestName} · Room {room.RoomNumber}", "/bookings", booking.Id.ToString(), ct);
 
         return booking.Id;
     }

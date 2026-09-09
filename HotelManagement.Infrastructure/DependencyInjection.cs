@@ -19,6 +19,7 @@ public static class DependencyInjection
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<INotificationRecorder, NotificationRecorder>();
         services.AddHttpContextAccessor();
         services.AddScoped<IImageService, LocalImageService>();
 

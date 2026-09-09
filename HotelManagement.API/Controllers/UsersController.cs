@@ -47,9 +47,10 @@ public class UsersController : ControllerBase
 {
     private readonly IApplicationDbContext _db;
     private readonly ITenantService _tenantService;
+    private readonly INotificationRecorder _notify;
 
-    public UsersController(IApplicationDbContext db, ITenantService ts)
-    { _db = db; _tenantService = ts; }
+    public UsersController(IApplicationDbContext db, ITenantService ts, INotificationRecorder notify)
+    { _db = db; _tenantService = ts; _notify = notify; }
 
     [HttpGet("modules")]
     public ActionResult<ApiResponse<string[]>> GetModules()
@@ -108,6 +109,9 @@ public class UsersController : ControllerBase
         };
         _db.Users.Add(staff);
         await _db.SaveChangesAsync(CancellationToken.None);
+
+        await _notify.RecordAsync("staff-added", "Staff added",
+            $"{staff.Name} was added to the team", "/users", staff.Id.ToString());
 
         return Ok(ApiResponse<Guid>.Ok(staff.Id, "Staff created successfully"));
     }
