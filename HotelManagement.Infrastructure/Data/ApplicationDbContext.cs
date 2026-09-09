@@ -56,5 +56,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         });
 
         mb.Entity<Payment>(e => { e.HasKey(x => x.Id); e.Property(x => x.Amount).HasColumnType("decimal(18,2)"); });
+
+        // Companions captured at check-in are looked up by BookingId for the Guest 360.
+        mb.Entity<Guest>(e => e.HasIndex(x => x.BookingId));
     }
 }
