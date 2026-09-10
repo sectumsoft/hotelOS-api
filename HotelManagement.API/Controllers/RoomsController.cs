@@ -32,9 +32,10 @@ public class RoomsController : ControllerBase
         [FromQuery] string? status,
         [FromQuery] string? roomType,
         [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 12)
+        [FromQuery] int pageSize = 12,
+        [FromQuery] bool skipCount = false)
     {
-        var result = await _mediator.Send(new GetRoomsQuery(search, status, roomType, pageNumber, pageSize));
+        var result = await _mediator.Send(new GetRoomsQuery(search, status, roomType, pageNumber, pageSize, skipCount));
         return Ok(ApiResponse<PagedResult<RoomDto>>.Ok(result));
     }
 

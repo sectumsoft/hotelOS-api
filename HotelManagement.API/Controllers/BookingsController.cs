@@ -41,17 +41,17 @@ public class BookingsController : ControllerBase
         [FromQuery] DateTime? checkInFrom,
         [FromQuery] DateTime? checkInTo,
         [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 12)
+        [FromQuery] int pageSize = 12,
+        [FromQuery] bool skipCount = false)
     {
-        var result = await _mediator.Send(new GetBookingsQuery(search, status, checkInFrom, checkInTo, pageNumber, pageSize));
+        var result = await _mediator.Send(new GetBookingsQuery(search, status, checkInFrom, checkInTo, pageNumber, pageSize, skipCount));
         return Ok(ApiResponse<PagedResult<BookingDto>>.Ok(result));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ApiResponse<BookingDto>>> GetById(Guid id)
     {
-        var result = await _mediator.Send(new GetBookingsQuery(null, null, null, null, 1, 1000));
-        var booking = result.Items.FirstOrDefault(b => b.Id == id);
+        var booking = await _mediator.Send(new GetBookingByIdQuery(id));
         if (booking == null) return NotFound(ApiResponse<BookingDto>.Fail("Booking not found"));
         return Ok(ApiResponse<BookingDto>.Ok(booking));
     }

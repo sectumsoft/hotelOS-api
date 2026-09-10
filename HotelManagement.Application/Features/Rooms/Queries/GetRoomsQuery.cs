@@ -1,13 +1,12 @@
 using MediatR;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using HotelManagement.Application.Common.Interfaces;
+using HotelManagement.Application.Common.Mappings;
 using HotelManagement.Application.Common.Models;
 
 namespace HotelManagement.Application.Features.Rooms.Queries;
 
-public record GetRoomsQuery(string? Search, string? Status, string? RoomType, int PageNumber = 1, int PageSize = 12) : IRequest<PagedResult<RoomDto>>;
+public record GetRoomsQuery(string? Search, string? Status, string? RoomType, int PageNumber = 1, int PageSize = 12, bool SkipCount = false) : IRequest<PagedResult<RoomDto>>;
 public record GetRoomByIdQuery(Guid Id) : IRequest<RoomDto?>;
 
 public class RoomDto
@@ -37,11 +36,10 @@ public class GetRoomsQueryHandler : IRequestHandler<GetRoomsQuery, PagedResult<R
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
-    private readonly IMapper _mapper;
 
-    public GetRoomsQueryHandler(IApplicationDbContext context, ITenantService tenantService, IMapper mapper)
+    public GetRoomsQueryHandler(IApplicationDbContext context, ITenantService tenantService)
     {
-        _context = context; _tenantService = tenantService; _mapper = mapper;
+        _context = context; _tenantService = tenantService;
     }
 
     public async Task<PagedResult<RoomDto>> Handle(GetRoomsQuery request, CancellationToken ct)
@@ -59,7 +57,8 @@ public class GetRoomsQueryHandler : IRequestHandler<GetRoomsQuery, PagedResult<R
         if (!string.IsNullOrWhiteSpace(request.RoomType))
             query = query.Where(r => r.RoomType == request.RoomType);
 
-        var total = await query.CountAsync(ct);
+        // client caches the total per filter and passes skipCount while only paging
+        var total = request.SkipCount ? -1 : await query.CountAsync(ct);
         var items = await query
             .OrderBy(r => r.RoomNumber)
             .Skip((request.PageNumber - 1) * request.PageSize)
@@ -68,7 +67,7 @@ public class GetRoomsQueryHandler : IRequestHandler<GetRoomsQuery, PagedResult<R
 
         return new PagedResult<RoomDto>
         {
-            Items = _mapper.Map<List<RoomDto>>(items),
+            Items = items.Select(r => r.ToDto()).ToList(),
             TotalCount = total,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
@@ -79,13 +78,11 @@ public class GetRoomsQueryHandler : IRequestHandler<GetRoomsQuery, PagedResult<R
     {
         private readonly IApplicationDbContext _context;
         private readonly ITenantService _tenantService;
-        private readonly IMapper _mapper;
 
-        public GetRoomByIdQueryHandler(IApplicationDbContext context, ITenantService tenantService, IMapper mapper)
+        public GetRoomByIdQueryHandler(IApplicationDbContext context, ITenantService tenantService)
         {
             _context = context;
             _tenantService = tenantService;
-            _mapper = mapper;
         }
 
         public async Task<RoomDto?> Handle(GetRoomByIdQuery request, CancellationToken ct)
@@ -98,7 +95,7 @@ public class GetRoomsQueryHandler : IRequestHandler<GetRoomsQuery, PagedResult<R
                     && !r.IsDeleted, ct);
 
             if (room == null) return null;
-            return _mapper.Map<RoomDto>(room);
+            return room.ToDto();
         }
     }
 }

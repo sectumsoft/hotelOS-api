@@ -1,5 +1,4 @@
 using System.Text;
-using HotelManagement.Application.Common.Mappings;
 using HotelManagement.Infrastructure;
 using HotelManagement.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,8 +59,7 @@ var corsOrigins = builder.Configuration.GetSection("Cors:Origins").Get<string[]>
                   ?? new[] { "http://localhost:4200" };
 builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
     policy.WithOrigins(corsOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(HotelManagement.Application.Common.Mappings.MappingProfile).Assembly));
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(HotelManagement.Application.DependencyInjection).Assembly));
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();

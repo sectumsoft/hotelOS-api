@@ -1,12 +1,12 @@
 using MediatR;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using HotelManagement.Application.Common.Interfaces;
+using HotelManagement.Application.Common.Mappings;
 using HotelManagement.Application.Common.Models;
 
 namespace HotelManagement.Application.Features.Bookings.Queries;
 
-public record GetBookingsQuery(string? Search, string? Status, DateTime? CheckInFrom, DateTime? CheckInTo, int PageNumber = 1, int PageSize = 12) : IRequest<PagedResult<BookingDto>>;
+public record GetBookingsQuery(string? Search, string? Status, DateTime? CheckInFrom, DateTime? CheckInTo, int PageNumber = 1, int PageSize = 12, bool SkipCount = false) : IRequest<PagedResult<BookingDto>>;
 
 public class BookingDto
 {
@@ -37,10 +37,9 @@ public class GetBookingsQueryHandler : IRequestHandler<GetBookingsQuery, PagedRe
 {
     private readonly IApplicationDbContext _context;
     private readonly ITenantService _tenantService;
-    private readonly IMapper _mapper;
 
-    public GetBookingsQueryHandler(IApplicationDbContext ctx, ITenantService ts, IMapper m)
-    { _context = ctx; _tenantService = ts; _mapper = m; }
+    public GetBookingsQueryHandler(IApplicationDbContext ctx, ITenantService ts)
+    { _context = ctx; _tenantService = ts; }
 
     public async Task<PagedResult<BookingDto>> Handle(GetBookingsQuery req, CancellationToken ct)
     {
@@ -56,9 +55,11 @@ public class GetBookingsQueryHandler : IRequestHandler<GetBookingsQuery, PagedRe
         if (req.CheckInFrom.HasValue) query = query.Where(b => b.CheckInDate >= req.CheckInFrom.Value);
         if (req.CheckInTo.HasValue) query = query.Where(b => b.CheckInDate <= req.CheckInTo.Value);
 
-        var total = await query.CountAsync(ct);
+        // While the client is only paging through an unchanged filter it already
+        // knows the total, so it sends skipCount=true and we avoid a second COUNT.
+        var total = req.SkipCount ? -1 : await query.CountAsync(ct);
         var items = await query.OrderByDescending(b => b.CreatedAt).Skip((req.PageNumber-1)*req.PageSize).Take(req.PageSize).ToListAsync(ct);
 
-        return new PagedResult<BookingDto> { Items = _mapper.Map<List<BookingDto>>(items), TotalCount = total, PageNumber = req.PageNumber, PageSize = req.PageSize };
+        return new PagedResult<BookingDto> { Items = items.Select(b => b.ToDto()).ToList(), TotalCount = total, PageNumber = req.PageNumber, PageSize = req.PageSize };
     }
 }

@@ -58,8 +58,18 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
         mb.Entity<Payment>(e => { e.HasKey(x => x.Id); e.Property(x => x.Amount).HasColumnType("decimal(18,2)"); });
 
-        // Companions captured at check-in are looked up by BookingId for the Guest 360.
-        mb.Entity<Guest>(e => e.HasIndex(x => x.BookingId));
+        mb.Entity<Guest>(e =>
+        {
+            // Companions captured at check-in are looked up by BookingId for the Guest 360.
+            e.HasIndex(x => x.BookingId);
+            // Map Guest.Booking onto Guest.BookingId explicitly. Without this, EF's
+            // conventions couldn't pair the navigation with the scalar (Guest already
+            // has a Bookings collection) and invented a second shadow FK, "BookingId1".
+            e.HasOne(x => x.Booking)
+                .WithMany()
+                .HasForeignKey(x => x.BookingId)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
 
         mb.Entity<Notification>(e => {
             e.HasKey(x => x.Id);

@@ -94,10 +94,7 @@ public class ReportsController : ControllerBase
         return File(bytes, "text/csv", $"hotel-report-{DateTime.UtcNow:yyyyMMdd}.csv");
     }
 
-    [HttpGet("export/excel")]
-    public async Task<IActionResult> ExportExcel([FromQuery] DateTime dateFrom, [FromQuery] DateTime dateTo)
-    {
-        // Returns CSV with Excel MIME for now; integrate ClosedXML or EPPlus for true .xlsx
-        return await ExportCsv(dateFrom, dateTo);
-    }
+    // Excel export is generated client-side as a real .xlsx from the loaded rows
+    // (see ReportsComponent.exportExcel on the frontend). The old server action
+    // returned CSV with an .xlsx name, which Excel flagged as corrupt.
 }
