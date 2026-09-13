@@ -63,8 +63,29 @@ public class BillMathTests
         Assert.Equal(100m, bill.DiscountAmount);
         Assert.Equal(330m, bill.TaxAmount);      // (3400 - 100) * 10%
         Assert.Equal(3630m, bill.TotalAmount);   // 3400 - 100 + 330
-        Assert.Equal(500m, bill.AmountPaid);     // carried from the booking advance
+        Assert.Equal(500m, bill.AmountPaid);     // no top-up: just the booking advance
         Assert.Equal(3130m, bill.BalanceDue);
+    }
+
+    [Fact]
+    public async Task Amount_paid_reflects_a_top_up_collected_at_check_in_not_just_the_advance()
+    {
+        // Room ₹5700, ₹2000 advance at booking → BalanceAmount starts at 3700.
+        var (db, booking) = Seed(pricePerNight: 5700m, nights: 1, advance: 2000m);
+        using var _ = db;
+
+        // CheckInCommandHandler records a check-in top-up by decrementing
+        // BalanceAmount directly — it never touches AdvanceAmount. Simulate
+        // collecting the remaining ₹3700 in full at check-in.
+        booking.BalanceAmount = 0m;
+        db.SaveChanges();
+
+        var billId = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, 0m, null), default);
+        var bill = db.Bills.Single(b => b.Id == billId);
+
+        Assert.Equal(5700m, bill.TotalAmount);
+        Assert.Equal(5700m, bill.AmountPaid);   // advance + check-in top-up, not just the ₹2000 advance
+        Assert.Equal(0m, bill.BalanceDue);
     }
 
     [Fact]

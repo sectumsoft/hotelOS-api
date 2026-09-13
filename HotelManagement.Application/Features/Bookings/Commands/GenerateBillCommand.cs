@@ -120,7 +120,14 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
 
         // 6. totals
         bill.TotalAmount = bill.SubTotal - bill.DiscountAmount + bill.TaxAmount;
-        bill.AmountPaid = booking.AdvanceAmount;
+
+        // AmountPaid must reflect everything collected so far, not just the
+        // booking-time advance: CheckInCommand can take an additional payment at
+        // check-in, but it records that by decrementing booking.BalanceAmount —
+        // it does NOT touch booking.AdvanceAmount. Using AdvanceAmount here would
+        // silently ignore that top-up and show a balance still due on a booking
+        // that was already paid in full at check-in.
+        bill.AmountPaid = booking.TotalAmount - booking.BalanceAmount;
         bill.BalanceDue = Math.Max(0, bill.TotalAmount - bill.AmountPaid);
 
         _context.Bills.Add(bill);

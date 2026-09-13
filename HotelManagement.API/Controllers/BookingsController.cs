@@ -156,8 +156,8 @@ public class BookingsController : ControllerBase
         var command = new GenerateBillCommand(
             id,
             request.ExtraServices.Select(s => new BillServiceItem(s.Description, s.Amount, s.Quantity)).ToList(),
-            request.DiscountAmount,
-            request.TaxPercent,
+            request.DiscountAmount ?? 0,
+            request.TaxPercent ?? 0,
             request.Notes);
         var billId = await _mediator.Send(command);
         return Ok(ApiResponse<Guid>.Ok(billId, "Bill generated successfully"));
