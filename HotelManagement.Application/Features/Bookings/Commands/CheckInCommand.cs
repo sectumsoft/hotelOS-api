@@ -38,6 +38,7 @@ public class CheckInCommandHandler : IRequestHandler<CheckInCommand, bool>
     {
         var booking = await _context.Bookings
             .Include(b => b.Room)
+            .Include(b => b.Guest)
             .FirstOrDefaultAsync(
                 b => b.Id == req.BookingId &&
                      b.TenantId == _tenantService.TenantId,
@@ -52,55 +53,52 @@ public class CheckInCommandHandler : IRequestHandler<CheckInCommand, bool>
 
         if (req.Guests != null && req.Guests.Any())
         {
-            var primaryGuest = req.Guests.First();
+            // The check-in form's first entry is the account-holder for this
+            // booking — the same person already on file as booking.Guest (set
+            // when the booking was created). Update that SAME row instead of
+            // searching/creating by phone: the check-in form has no phone field
+            // at all, so every guest here arrives with Phone == "". Treating that
+            // blank like a real lookup key either spawns a duplicate row for the
+            // primary guest (their real ID proof lands on the duplicate, not the
+            // profile Guest 360 actually reads) or — worse — collides two
+            // unrelated guests from different bookings onto the same row, since
+            // they'd all match on the same empty string.
+            var primary = req.Guests.First();
 
-            booking.GuestName = primaryGuest.Name;
-            booking.GuestPhone = primaryGuest.Phone;
-            booking.GuestAddress = primaryGuest.Address;
-        }
+            booking.GuestName = primary.Name;
+            // Only overwrite what the check-in form actually collected. It doesn't
+            // ask for phone/address, so blindly assigning primary.Phone/Address
+            // here was wiping out the real values entered at booking time.
+            if (!string.IsNullOrWhiteSpace(primary.Phone)) booking.GuestPhone = primary.Phone;
+            if (!string.IsNullOrWhiteSpace(primary.Address)) booking.GuestAddress = primary.Address;
 
-        if (req.Guests != null && req.Guests.Any())
-        {
-            foreach (var guestDto in req.Guests)
+            if (booking.Guest != null)
             {
-                var existingGuest = await _context.Guests.FirstOrDefaultAsync(
-                    g => g.Phone == guestDto.Phone &&
-                         g.TenantId == _tenantService.TenantId,
-                    ct
-                );
+                booking.Guest.Name = primary.Name;
+                if (!string.IsNullOrWhiteSpace(primary.Address)) booking.Guest.Address = primary.Address;
+                if (!string.IsNullOrWhiteSpace(primary.IdProofType)) booking.Guest.IdProofType = primary.IdProofType;
+                if (!string.IsNullOrWhiteSpace(primary.IdProofNumber)) booking.Guest.IdProofNumber = primary.IdProofNumber;
+                if (!string.IsNullOrWhiteSpace(primary.IdProofUrl)) booking.Guest.IdProofUrl = primary.IdProofUrl;
+            }
 
-                if (existingGuest == null)
+            // Everyone else is a companion captured for this stay only. Always
+            // add a fresh row scoped to this booking — there's no reliable field
+            // to dedupe an existing companion against (see above), so guessing
+            // at a match risks overwriting an unrelated guest's record instead.
+            foreach (var companion in req.Guests.Skip(1))
+            {
+                _context.Guests.Add(new Guest
                 {
-                    var newGuest = new Guest
-                    {
-                        TenantId = _tenantService.TenantId,
-
-                        Name = guestDto.Name,
-                        Phone = guestDto.Phone,
-                        Address = guestDto.Address,
-                        IdProofType = guestDto.IdProofType,
-                        IdProofNumber = guestDto.IdProofNumber,
-                        IdProofUrl = guestDto.IdProofUrl,
-                        BookingId = booking.Id,
-                        TotalStays = 1
-                    };
-                    _context.Guests.Add(newGuest);
-                }
-                else
-                {
-                    existingGuest.Name = guestDto.Name;
-                    existingGuest.Address = guestDto.Address;
-
-                    if (!string.IsNullOrWhiteSpace(guestDto.IdProofType))
-                        existingGuest.IdProofType = guestDto.IdProofType;
-
-                    if (!string.IsNullOrWhiteSpace(guestDto.IdProofNumber))
-                        existingGuest.IdProofNumber = guestDto.IdProofNumber;
-                    if (!string.IsNullOrWhiteSpace(guestDto.IdProofUrl))
-                        existingGuest.IdProofUrl = guestDto.IdProofUrl;
-                    existingGuest.BookingId = booking.Id;
-                    existingGuest.TotalStays += 1;
-                }
+                    TenantId = _tenantService.TenantId,
+                    Name = companion.Name,
+                    Phone = companion.Phone ?? "",
+                    Address = companion.Address,
+                    IdProofType = companion.IdProofType,
+                    IdProofNumber = companion.IdProofNumber,
+                    IdProofUrl = companion.IdProofUrl,
+                    BookingId = booking.Id,
+                    TotalStays = 1
+                });
             }
         }
 
