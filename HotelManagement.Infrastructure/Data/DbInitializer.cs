@@ -1,12 +1,13 @@
 using HotelManagement.Domain.Entities;
 using HotelManagement.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace HotelManagement.Infrastructure.Data;
 
 public static class DbInitializer
 {
-    public static async Task SeedAsync(ApplicationDbContext context)
+    public static async Task SeedAsync(ApplicationDbContext context, IConfiguration config, bool isDevelopment)
     {
         await context.Database.MigrateAsync();
 
@@ -57,12 +58,38 @@ public static class DbInitializer
         // ── Platform SuperAdmin — always ensured, has no tenant ──
         if (!await context.Users.AnyAsync(u => u.Role == UserRole.SuperAdmin))
         {
+            // Overridable via SuperAdmin__Email / SuperAdmin__Password env vars.
+            // Outside Development we refuse to fall back to the well-known default
+            // password — it's printed in this repo's own docs, so seeding it into a
+            // real deployment would hand out a full-platform admin account to anyone
+            // who's read the README. Generate a one-time random password instead and
+            // print it once so whoever deployed this can retrieve and rotate it.
+            var email = config["SuperAdmin:Email"];
+            var password = config["SuperAdmin:Password"];
+
+            if (string.IsNullOrWhiteSpace(email)) email = "superadmin@innwise.com";
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                if (isDevelopment)
+                {
+                    password = "superadmin123";
+                }
+                else
+                {
+                    password = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(24));
+                    Console.WriteLine(
+                        $"[DbInitializer] No SuperAdmin:Password configured — seeded '{email}' " +
+                        $"with a generated one-time password: {password}  Log in and change it now.");
+                }
+            }
+
             context.Users.Add(new User
             {
                 TenantId = null,
                 Name = "Platform Owner",
-                Email = "superadmin@hotelos.com",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("superadmin123"),
+                Email = email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
                 Role = UserRole.SuperAdmin,
                 IsActive = true
             });

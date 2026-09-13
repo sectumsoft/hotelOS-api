@@ -24,7 +24,9 @@ public class ReportRowDto
     public string Status { get; set; } = "";
 }
 
-[Authorize]
+// Tenant-scoped: SuperAdmin tokens carry no tenantId claim, so they're excluded
+// here rather than falling through to Guid.Empty-scoped queries.
+[Authorize(Roles = "HotelAdmin,Staff")]
 [ApiController]
 [Route("api/[controller]")]
 [ModuleAccess("reports")]
@@ -88,10 +90,32 @@ public class ReportsController : ControllerBase
         var sb = new StringBuilder();
         sb.AppendLine("Booking ID,Guest Name,Room,Type,Check-In,Check-Out,Nights,Total,Advance,Balance,Status");
         foreach (var b in bookings)
-            sb.AppendLine($"{b.BookingNumber},{b.GuestName},{b.Room.RoomNumber},{b.Room.RoomType},{b.CheckInDate:yyyy-MM-dd},{b.CheckOutDate:yyyy-MM-dd},{b.TotalNights},{b.TotalAmount},{b.AdvanceAmount},{b.BalanceAmount},{b.Status}");
+        {
+            sb.AppendLine(string.Join(",",
+                CsvCell(b.BookingNumber), CsvCell(b.GuestName), CsvCell(b.Room.RoomNumber), CsvCell(b.Room.RoomType),
+                CsvCell(b.CheckInDate.ToString("yyyy-MM-dd")), CsvCell(b.CheckOutDate.ToString("yyyy-MM-dd")),
+                CsvCell(b.TotalNights.ToString()), CsvCell(b.TotalAmount.ToString()), CsvCell(b.AdvanceAmount.ToString()),
+                CsvCell(b.BalanceAmount.ToString()), CsvCell(b.Status.ToString())));
+        }
 
         var bytes = Encoding.UTF8.GetBytes(sb.ToString());
         return File(bytes, "text/csv", $"hotel-report-{DateTime.UtcNow:yyyyMMdd}.csv");
+    }
+
+    /// <summary>
+    /// Quotes a CSV field (so guest-supplied names/addresses containing commas or
+    /// quotes don't corrupt the row) and neutralises leading =, +, -, @ characters,
+    /// which Excel/Sheets treat as the start of a formula — a guest can set their
+    /// own name at walk-in check-in, so an unescaped one like
+    /// <c>=HYPERLINK("http://evil","x")</c> would execute when staff open the
+    /// export (CSV/formula injection, CWE-1236).
+    /// </summary>
+    private static string CsvCell(string? value)
+    {
+        value ??= "";
+        if (value.Length > 0 && "=+-@".Contains(value[0]))
+            value = "'" + value;
+        return "\"" + value.Replace("\"", "\"\"") + "\"";
     }
 
     // Excel export is generated client-side as a real .xlsx from the loaded rows

@@ -34,6 +34,17 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
         var existing = await _context.Bills.FirstOrDefaultAsync(b => b.BookingId == request.BookingId, ct);
         if (existing != null) return existing.Id;
 
+        // ── validate money inputs — this all comes straight from the client ──
+        if (request.TaxPercent < 0 || request.TaxPercent > 100)
+            throw new Exception("Tax must be between 0 and 100%");
+        if (request.DiscountAmount < 0)
+            throw new Exception("Discount cannot be negative");
+        foreach (var svc in request.ExtraServices)
+        {
+            if (svc.Amount < 0) throw new Exception($"'{svc.Description}' has a negative amount");
+            if (svc.Quantity < 1) throw new Exception($"'{svc.Description}' has an invalid quantity");
+        }
+
         var bill = new Bill
         {
             TenantId = _tenantService.TenantId,
@@ -43,13 +54,18 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
             Notes = request.Notes
         };
 
-        // 1. room charges line item
-        var roomCharge = booking.Room.PricePerNight * booking.TotalNights;
+        // 1. room charges line item — billed at the rate the guest actually agreed
+        // to at booking time (booking.TotalAmount), not the room's current price.
+        // The room's nightly rate can change after the booking is made (seasonal
+        // pricing, a rate correction, …); re-deriving the charge from Room.PricePerNight
+        // would silently re-price every past booking's bill to today's rate.
+        var roomCharge = booking.TotalAmount;
+        var nightlyRate = booking.TotalNights > 0 ? roomCharge / booking.TotalNights : roomCharge;
         bill.Items.Add(new BillItem
         {
-            Description = $"Room {booking.Room.RoomNumber} ({booking.TotalNights} nights x ${booking.Room.PricePerNight})",
+            Description = $"Room {booking.Room.RoomNumber} ({booking.TotalNights} nights x ₹{nightlyRate:0.##})",
             Category = "Room",
-            UnitPrice = booking.Room.PricePerNight,
+            UnitPrice = nightlyRate,
             Quantity = booking.TotalNights,
             Amount = roomCharge
         });
@@ -69,6 +85,9 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
 
         // 3. calculate subtotal
         bill.SubTotal = bill.Items.Sum(i => i.Amount);
+
+        if (request.DiscountAmount > bill.SubTotal)
+            throw new Exception("Discount cannot exceed the subtotal");
 
         // 4. discount
         if (request.DiscountAmount > 0)

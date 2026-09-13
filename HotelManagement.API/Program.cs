@@ -1,7 +1,9 @@
 using System.Text;
+using System.Threading.RateLimiting;
 using HotelManagement.Infrastructure;
 using HotelManagement.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
@@ -53,6 +55,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+// Throttle login attempts per client IP — BCrypt.Verify is deliberately slow, but
+// that alone doesn't stop a distributed credential-stuffing run against
+// /api/auth/login. Applied to the login endpoint only via [EnableRateLimiting].
+// Note: behind a reverse proxy (Render, etc.) RemoteIpAddress is the proxy hop
+// unless forwarded-header trust is configured — this is still a real backstop,
+// just not a substitute for an account-lockout policy.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("login", httpContext => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0
+        }));
+});
+
 // Allowed front-end origins come from config ("Cors:Origins") or env vars
 // (Cors__Origins__0, Cors__Origins__1, …). Falls back to local dev.
 var corsOrigins = builder.Configuration.GetSection("Cors:Origins").Get<string[]>()
@@ -67,13 +88,27 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    await DbInitializer.SeedAsync(db);
+    await DbInitializer.SeedAsync(db, app.Configuration, app.Environment.IsDevelopment());
 }
 
 // Turn unhandled exceptions into a JSON body (and a log line) instead of a bare 500.
 app.UseMiddleware<ExceptionMiddleware>();
 
+// Baseline hardening headers on every response. No CSP here — the API serves
+// JSON plus static uploads, not HTML pages, so a CSP would mostly protect the
+// Swagger UI; the meaningful wins are clickjacking/MIME-sniffing protection for
+// the /uploads static files, which anyone with a link can open directly.
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Referrer-Policy"] = "no-referrer";
+    await next();
+});
+
 app.UseCors();
+
+app.UseRateLimiter();
 
 // Serve uploaded files (guest ID proofs, room images) from wwwroot at the root
 // path. A fresh container has no wwwroot, so create it first — PhysicalFileProvider
@@ -86,19 +121,21 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = ""
 });
 
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
-app.UseSwagger();
-app.UseSwaggerUI();
+// Swagger exposes the full API surface (routes, DTOs, the JWT scheme) — fine for
+// local/QA, not something to hand an anonymous internet visitor in Production.
+if (!app.Environment.IsProduction())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 // Behind a hosting proxy (Render, Railway, …) TLS is terminated at the edge and
 // the app receives plain HTTP on $PORT, so HTTPS redirection would loop. Only
 // enforce it for local development.
 if (app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
+else
+    app.UseHsts();
 
 app.UseAuthentication();
 app.UseAuthorization();

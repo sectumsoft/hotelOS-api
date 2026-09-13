@@ -94,4 +94,56 @@ public class BillMathTests
         Assert.Equal(first, second);
         Assert.Single(db.Bills);
     }
+
+    [Fact]
+    public async Task Bills_at_the_rate_locked_in_at_booking_time_not_the_rooms_current_price()
+    {
+        var (db, booking) = Seed(pricePerNight: 1000m, nights: 3); // booking.TotalAmount = 3000
+        using var _ = db;
+
+        // The room's rate changes after the booking was made (e.g. a seasonal
+        // price update) — the bill must still reflect what the guest agreed to.
+        db.Rooms.Single(r => r.Id == booking.RoomId).PricePerNight = 5000m;
+        db.SaveChanges();
+
+        var billId = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, 0m, null), default);
+        var bill = db.Bills.Single(b => b.Id == billId);
+
+        Assert.Equal(3000m, bill.SubTotal);
+        Assert.Equal(3000m, bill.TotalAmount);
+    }
+
+    [Fact]
+    public async Task Rejects_a_discount_larger_than_the_subtotal()
+    {
+        var (db, booking) = Seed(pricePerNight: 1000m, nights: 1); // subtotal = 1000
+        using var _ = db;
+
+        var ex = await Assert.ThrowsAsync<Exception>(() => NewHandler(db).Handle(
+            new GenerateBillCommand(booking.Id, new(), DiscountAmount: 5000m, TaxPercent: 0m, Notes: null), default));
+
+        Assert.Contains("exceed", ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(150)]
+    public async Task Rejects_a_tax_percent_outside_0_to_100(decimal badTaxPercent)
+    {
+        var (db, booking) = Seed();
+        using var _ = db;
+
+        await Assert.ThrowsAsync<Exception>(() => NewHandler(db).Handle(
+            new GenerateBillCommand(booking.Id, new(), 0m, badTaxPercent, null), default));
+    }
+
+    [Fact]
+    public async Task Rejects_a_negative_extra_service_amount()
+    {
+        var (db, booking) = Seed();
+        using var _ = db;
+
+        await Assert.ThrowsAsync<Exception>(() => NewHandler(db).Handle(
+            new GenerateBillCommand(booking.Id, new() { new BillServiceItem("Refund abuse", -500m) }, 0m, 0m, null), default));
+    }
 }

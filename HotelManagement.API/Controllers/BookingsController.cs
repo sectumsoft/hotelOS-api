@@ -1,3 +1,4 @@
+using HotelManagement.Application.Common.Interfaces;
 using HotelManagement.Application.Common.Models;
 using HotelManagement.API.Middleware;
 using HotelManagement.Application.Features.Bookings.Commands;
@@ -25,14 +26,21 @@ public class CheckInGuestFormDto
     public string? IdNumber { get; set; }
 }
 
-[Authorize]
+// Tenant-scoped: SuperAdmin tokens carry no tenantId claim, so they're excluded
+// here rather than falling through to Guid.Empty-scoped queries.
+[Authorize(Roles = "HotelAdmin,Staff")]
 [ApiController]
 [Route("api/[controller]")]
 [ModuleAccess("bookings")]
 public class BookingsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public BookingsController(IMediator mediator) { _mediator = mediator; }
+    private readonly IImageService _imageService;
+    public BookingsController(IMediator mediator, IImageService imageService)
+    { _mediator = mediator; _imageService = imageService; }
+
+    private static readonly string[] AllowedIdProofExtensions = { ".jpg", ".jpeg", ".png", ".webp", ".pdf" };
+    private const long MaxIdProofBytes = 10 * 1024 * 1024; // 10 MB
 
     [HttpGet]
     public async Task<ActionResult<ApiResponse<PagedResult<BookingDto>>>> GetAll(
@@ -91,13 +99,18 @@ public class BookingsController : ControllerBase
             var file = files[$"idProof_{i}"];
             if (file != null)
             {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-                Directory.CreateDirectory(uploadsFolder);
-                var fileName = $"{Guid.NewGuid()}_{file.FileName}";
-                var filePath = Path.Combine(uploadsFolder, fileName);
-                using var stream = new FileStream(filePath, FileMode.Create);
-                await file.CopyToAsync(stream);
-                idProofUrl = $"/uploads/{fileName}";
+                // The upload filename comes straight from the client's multipart
+                // headers — validate its extension and route it through
+                // IImageService, which sanitises the name (Path.GetFileName) before
+                // it ever touches the filesystem. Without that, a filename like
+                // "../../../Program.cs" would let a check-in write outside wwwroot.
+                var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+                if (!AllowedIdProofExtensions.Contains(ext))
+                    return BadRequest(ApiResponse<bool>.Fail($"ID proof '{file.FileName}' must be a JPG, PNG, WEBP or PDF."));
+                if (file.Length > MaxIdProofBytes)
+                    return BadRequest(ApiResponse<bool>.Fail($"ID proof '{file.FileName}' exceeds the 10 MB limit."));
+
+                idProofUrl = await _imageService.SaveImageAsync(file.OpenReadStream(), file.FileName, "idproofs");
             }
 
             guestDtos.Add(new CheckInGuestDto

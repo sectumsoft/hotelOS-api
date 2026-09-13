@@ -24,7 +24,9 @@ public class NotificationFeedDto
     public List<NotificationDto> Items { get; set; } = new();
 }
 
-[Authorize]
+// Tenant-scoped: SuperAdmin tokens carry no tenantId claim, so they're excluded
+// here rather than falling through to Guid.Empty-scoped queries.
+[Authorize(Roles = "HotelAdmin,Staff")]
 [ApiController]
 [Route("api/[controller]")]
 public class NotificationsController : ControllerBase

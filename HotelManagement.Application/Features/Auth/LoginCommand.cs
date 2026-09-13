@@ -53,6 +53,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResultDto?
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(req.Password, user.PasswordHash)) return null;
 
+        // A suspended hotel (Tenant.IsActive = false) shouldn't let its staff keep
+        // signing in — this was defined on the entity but never actually checked.
+        if (user.Tenant != null && !user.Tenant.IsActive) return null;
+
         var token = _jwt.GenerateToken(user);
         var refresh = _jwt.GenerateRefreshToken();
         user.RefreshToken = refresh;

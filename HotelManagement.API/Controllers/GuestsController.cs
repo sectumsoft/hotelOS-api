@@ -74,7 +74,9 @@ public class GuestDetailDto
     public List<GuestBookingDto> Bookings { get; set; } = new();
 }
 
-[Authorize]
+// Tenant-scoped: SuperAdmin tokens carry no tenantId claim, so they're excluded
+// here rather than falling through to Guid.Empty-scoped queries.
+[Authorize(Roles = "HotelAdmin,Staff")]
 [ApiController]
 [Route("api/[controller]")]
 [ModuleAccess("guests")]

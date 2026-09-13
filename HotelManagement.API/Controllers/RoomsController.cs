@@ -11,7 +11,9 @@ using System.Linq;
 
 namespace HotelManagement.API.Controllers;
 
-[Authorize]
+// Tenant-scoped: SuperAdmin tokens carry no tenantId claim, so they're excluded
+// here rather than falling through to Guid.Empty-scoped queries.
+[Authorize(Roles = "HotelAdmin,Staff")]
 [ApiController]
 [Route("api/[controller]")]
 [ModuleAccess("rooms")]
@@ -25,6 +27,8 @@ public class RoomsController : ControllerBase
         _mediator = mediator;
         _imageService = imageService;
     }
+
+    private const long MaxImageBytes = 10 * 1024 * 1024; // 10 MB
 
     [HttpGet]
     public async Task<ActionResult<ApiResponse<PagedResult<RoomDto>>>> GetAll(
@@ -58,6 +62,8 @@ public class RoomsController : ControllerBase
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!allowedExtensions.Contains(ext))
                 return BadRequest(ApiResponse<Guid>.Fail($"File '{file.FileName}' is not a supported image type."));
+            if (file.Length > MaxImageBytes)
+                return BadRequest(ApiResponse<Guid>.Fail($"File '{file.FileName}' exceeds the 10 MB limit."));
         }
 
         // 2. save each image and collect URLs
@@ -112,6 +118,8 @@ public class RoomsController : ControllerBase
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!allowedExtensions.Contains(ext))
                 return BadRequest(ApiResponse<bool>.Fail($"File '{file.FileName}' is not a supported image type."));
+            if (file.Length > MaxImageBytes)
+                return BadRequest(ApiResponse<bool>.Fail($"File '{file.FileName}' exceeds the 10 MB limit."));
         }
 
         // 2. save new images
