@@ -16,6 +16,7 @@ public class HotelSettingsDto
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
+    public decimal TaxPercent { get; set; }
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
@@ -54,6 +55,7 @@ public class GetHotelSettingsQueryHandler
                 Email = settings.Email,
                 Phone = settings.Phone,
                 Address = settings.Address,
+                TaxPercent = settings.TaxPercent,
                 CreatedAt = settings.CreatedAt,
                 UpdatedAt = settings.UpdatedAt
             };

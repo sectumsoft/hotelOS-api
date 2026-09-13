@@ -14,5 +14,12 @@ namespace HotelManagement.Domain.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+
+        /// <summary>
+        /// GST/tax rate for this hotel, configured once instead of typed per bill.
+        /// Room rates and extra-service prices are tax-INCLUSIVE — this is used to
+        /// back the tax portion out of the total for display, not add it on top.
+        /// </summary>
+        public decimal TaxPercent { get; set; } = 0;
     }
 }

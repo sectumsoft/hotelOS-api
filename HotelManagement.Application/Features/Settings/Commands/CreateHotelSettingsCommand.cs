@@ -8,5 +8,6 @@ public record CreateHotelSettingsCommand(
     string Subdomain,
     string Email,
     string Phone,
-    string Address
+    string Address,
+    decimal TaxPercent = 0
 ) : IRequest<Guid>;

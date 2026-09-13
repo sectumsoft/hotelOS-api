@@ -5,7 +5,10 @@ using HotelManagement.Domain.Entities;
 
 namespace HotelManagement.Application.Features.Bookings.Commands;
 
-public record GenerateBillCommand(Guid BookingId, List<BillServiceItem> ExtraServices, decimal DiscountAmount, decimal TaxPercent, string? Notes) : IRequest<Guid>;
+// Tax is no longer supplied per bill — it's configured once in Settings
+// (HotelSettings.TaxPercent) and applied here, backed out of the tax-inclusive
+// room/service rates rather than added on top.
+public record GenerateBillCommand(Guid BookingId, List<BillServiceItem> ExtraServices, decimal DiscountAmount, string? Notes) : IRequest<Guid>;
 
 public record BillServiceItem(string Description, decimal Amount, int Quantity = 1);
 
@@ -34,9 +37,11 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
         var existing = await _context.Bills.FirstOrDefaultAsync(b => b.BookingId == request.BookingId, ct);
         if (existing != null) return existing.Id;
 
+        var hotelSettings = await _context.HotelSettings
+            .FirstOrDefaultAsync(s => s.TenantId == _tenantService.TenantId, ct);
+        var taxPercent = hotelSettings?.TaxPercent ?? 0m;
+
         // ── validate money inputs — this all comes straight from the client ──
-        if (request.TaxPercent < 0 || request.TaxPercent > 100)
-            throw new Exception("Tax must be between 0 and 100%");
         if (request.DiscountAmount < 0)
             throw new Exception("Discount cannot be negative");
         foreach (var svc in request.ExtraServices)
@@ -103,23 +108,21 @@ public class GenerateBillCommandHandler : IRequestHandler<GenerateBillCommand, G
             bill.DiscountAmount = request.DiscountAmount;
         }
 
-        // 5. tax
-        var taxableAmount = bill.SubTotal - bill.DiscountAmount;
-        bill.TaxAmount = Math.Round(taxableAmount * (request.TaxPercent / 100), 2);
-        if (bill.TaxAmount > 0)
-        {
-            bill.Items.Add(new BillItem
-            {
-                Description = $"Tax ({request.TaxPercent}%)",
-                Category = "Tax",
-                UnitPrice = bill.TaxAmount,
-                Quantity = 1,
-                Amount = bill.TaxAmount
-            });
-        }
+        // 5. tax — room rates and service prices are tax-INCLUSIVE (configured once
+        // in Settings), so tax is backed out of what's already being charged for
+        // display, never added on top. The guest never owes more than the
+        // subtotal they were already quoted; "Tax" here is a breakdown line, not
+        // an extra charge, so it's deliberately not added to bill.Items (which
+        // sums to the amount actually charged).
+        var payableAmount = bill.SubTotal - bill.DiscountAmount;
+        bill.TaxAmount = taxPercent > 0
+            ? Math.Round(payableAmount - (payableAmount / (1 + taxPercent / 100)), 2)
+            : 0m;
 
-        // 6. totals
-        bill.TotalAmount = bill.SubTotal - bill.DiscountAmount + bill.TaxAmount;
+        // 6. totals — TotalAmount is the inclusive price itself, not
+        // payableAmount + TaxAmount (that would double-count the tax already
+        // baked into payableAmount).
+        bill.TotalAmount = payableAmount;
 
         // AmountPaid must reflect everything collected so far, not just the
         // booking-time advance: CheckInCommand can take an additional payment at

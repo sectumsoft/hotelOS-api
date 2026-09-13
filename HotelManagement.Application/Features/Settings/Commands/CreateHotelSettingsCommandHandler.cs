@@ -25,6 +25,8 @@ public class CreateHotelSettingsCommandHandler
 
         if (string.IsNullOrWhiteSpace(request.HotelName))
             throw new Exception("Hotel name is required");
+        if (request.TaxPercent < 0 || request.TaxPercent > 100)
+            throw new Exception("Tax must be between 0 and 100%");
 
         var settings = await _context.HotelSettings
             .FirstOrDefaultAsync(x => x.TenantId == tenantId, ct);
@@ -45,6 +47,7 @@ public class CreateHotelSettingsCommandHandler
         settings.Email = request.Email?.Trim() ?? string.Empty;
         settings.Phone = request.Phone?.Trim() ?? string.Empty;
         settings.Address = request.Address?.Trim() ?? string.Empty;
+        settings.TaxPercent = request.TaxPercent;
         settings.UpdatedAt = DateTime.UtcNow;
 
         // Keep the Tenant name (shown in the sidebar/topbar) in sync.

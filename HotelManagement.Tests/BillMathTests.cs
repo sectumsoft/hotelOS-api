@@ -6,7 +6,8 @@ namespace HotelManagement.Tests;
 
 public class BillMathTests
 {
-    private static (Infrastructure.Data.ApplicationDbContext db, Booking booking) Seed(decimal pricePerNight = 1000m, int nights = 3, decimal advance = 500m)
+    private static (Infrastructure.Data.ApplicationDbContext db, Booking booking) Seed(
+        decimal pricePerNight = 1000m, int nights = 3, decimal advance = 500m, decimal taxPercent = 0m)
     {
         var db = TestContext.NewDb();
         var room = new Room
@@ -37,6 +38,17 @@ public class BillMathTests
         };
         db.Rooms.Add(room);
         db.Bookings.Add(booking);
+        db.HotelSettings.Add(new HotelSettings
+        {
+            Id = Guid.NewGuid(),
+            TenantId = TestContext.TenantId,
+            HotelName = "Test Hotel",
+            Subdomain = "test",
+            Email = "",
+            Phone = "",
+            Address = "",
+            TaxPercent = taxPercent,
+        });
         db.SaveChanges();
         return (db, booking);
     }
@@ -45,7 +57,7 @@ public class BillMathTests
         => new(db, new TestContext.FakeTenantService(), new TestContext.NullNotificationRecorder());
 
     [Fact]
-    public async Task Computes_subtotal_discount_tax_and_balance()
+    public async Task Computes_subtotal_and_discount()
     {
         var (db, booking) = Seed();
         using var _ = db;
@@ -54,17 +66,39 @@ public class BillMathTests
             booking.Id,
             ExtraServices: new() { new BillServiceItem("Laundry", 200m, 2) },
             DiscountAmount: 100m,
-            TaxPercent: 10m,
             Notes: null), default);
 
         var bill = db.Bills.Single(b => b.Id == billId);
 
         Assert.Equal(3400m, bill.SubTotal);      // 1000*3 room + 200*2 laundry
         Assert.Equal(100m, bill.DiscountAmount);
-        Assert.Equal(330m, bill.TaxAmount);      // (3400 - 100) * 10%
-        Assert.Equal(3630m, bill.TotalAmount);   // 3400 - 100 + 330
+        Assert.Equal(3300m, bill.TotalAmount);   // 3400 - 100, tax is 0% by default
         Assert.Equal(500m, bill.AmountPaid);     // no top-up: just the booking advance
-        Assert.Equal(3130m, bill.BalanceDue);
+        Assert.Equal(2800m, bill.BalanceDue);
+    }
+
+    [Fact]
+    public async Task Tax_is_backed_out_of_the_inclusive_rate_not_added_on_top()
+    {
+        // Room rate is tax-inclusive: the hotel's configured 10% is baked into
+        // what the guest is already being charged, not stacked on top of it.
+        var (db, booking) = Seed(pricePerNight: 1000m, nights: 3, taxPercent: 10m);
+        using var _ = db;
+
+        var billId = await NewHandler(db).Handle(new GenerateBillCommand(
+            booking.Id,
+            ExtraServices: new() { new BillServiceItem("Laundry", 200m, 2) },
+            DiscountAmount: 100m,
+            Notes: null), default);
+
+        var bill = db.Bills.Single(b => b.Id == billId);
+
+        Assert.Equal(3400m, bill.SubTotal);        // 3000 room + 400 laundry
+        // Total is exactly subtotal - discount — the 10% never gets added on top.
+        Assert.Equal(3300m, bill.TotalAmount);
+        // Tax is shown purely as a breakdown of that 3300, not an extra charge:
+        // 3300 - (3300 / 1.10) = 300.
+        Assert.Equal(300m, bill.TaxAmount);
     }
 
     [Fact]
@@ -80,7 +114,7 @@ public class BillMathTests
         booking.BalanceAmount = 0m;
         db.SaveChanges();
 
-        var billId = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, 0m, null), default);
+        var billId = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, null), default);
         var bill = db.Bills.Single(b => b.Id == billId);
 
         Assert.Equal(5700m, bill.TotalAmount);
@@ -95,7 +129,7 @@ public class BillMathTests
         using var _ = db;
 
         var billId = await NewHandler(db).Handle(new GenerateBillCommand(
-            booking.Id, new(), 0m, 0m, null), default);
+            booking.Id, new(), 0m, null), default);
 
         var bill = db.Bills.Single(b => b.Id == billId);
 
@@ -109,8 +143,8 @@ public class BillMathTests
         var (db, booking) = Seed();
         using var _ = db;
 
-        var first = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, 0m, null), default);
-        var second = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, 0m, null), default);
+        var first = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, null), default);
+        var second = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, null), default);
 
         Assert.Equal(first, second);
         Assert.Single(db.Bills);
@@ -127,7 +161,7 @@ public class BillMathTests
         db.Rooms.Single(r => r.Id == booking.RoomId).PricePerNight = 5000m;
         db.SaveChanges();
 
-        var billId = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, 0m, null), default);
+        var billId = await NewHandler(db).Handle(new GenerateBillCommand(booking.Id, new(), 0m, null), default);
         var bill = db.Bills.Single(b => b.Id == billId);
 
         Assert.Equal(3000m, bill.SubTotal);
@@ -141,21 +175,9 @@ public class BillMathTests
         using var _ = db;
 
         var ex = await Assert.ThrowsAsync<Exception>(() => NewHandler(db).Handle(
-            new GenerateBillCommand(booking.Id, new(), DiscountAmount: 5000m, TaxPercent: 0m, Notes: null), default));
+            new GenerateBillCommand(booking.Id, new(), DiscountAmount: 5000m, Notes: null), default));
 
         Assert.Contains("exceed", ex.Message, StringComparison.OrdinalIgnoreCase);
-    }
-
-    [Theory]
-    [InlineData(-1)]
-    [InlineData(150)]
-    public async Task Rejects_a_tax_percent_outside_0_to_100(decimal badTaxPercent)
-    {
-        var (db, booking) = Seed();
-        using var _ = db;
-
-        await Assert.ThrowsAsync<Exception>(() => NewHandler(db).Handle(
-            new GenerateBillCommand(booking.Id, new(), 0m, badTaxPercent, null), default));
     }
 
     [Fact]
@@ -165,6 +187,6 @@ public class BillMathTests
         using var _ = db;
 
         await Assert.ThrowsAsync<Exception>(() => NewHandler(db).Handle(
-            new GenerateBillCommand(booking.Id, new() { new BillServiceItem("Refund abuse", -500m) }, 0m, 0m, null), default));
+            new GenerateBillCommand(booking.Id, new() { new BillServiceItem("Refund abuse", -500m) }, 0m, null), default));
     }
 }
