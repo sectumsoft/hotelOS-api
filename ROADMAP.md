@@ -50,9 +50,10 @@ are **done**; the rest are open. See `PROJECT.md` for architecture.
     - [ ] Revenue-by-day from actual bills/payments
     - [ ] Occupancy-by-day from bookings vs room count
     - [ ] Booking-sources from a real `Booking.Source` field (see Bookings section)
-- [ ] **Object storage for uploads** — `M` — move ID proofs + room images off Render's ephemeral disk
-  - Touches: `LocalImageService` → new `R2ImageService` / `S3ImageService`, `IImageService` interface stays
-  - Cloudflare R2 (S3-compatible) is cheapest; needs a bucket + keys as env vars
+- [x] **Object storage for uploads** — `M` — move ID proofs + room images off Render's ephemeral disk
+  - Code done 2026-09-16 (triggered by 12 rooms' photos 404ing after a redeploy wiped `wwwroot/Uploads`): `R2ImageService` (`HotelManagement.Infrastructure/Services/R2ImageService.cs`, S3-compatible client) added alongside `LocalImageService`; `DependencyInjection.cs` picks one via `ObjectStorage:Provider` config. Frontend `<img>` tags now fall back to the placeholder on a 404 instead of a broken-image icon either way.
+  - **Still needed to actually activate it**: create a Cloudflare R2 bucket + API token (account-level action, not something Claude can do), then set on Render: `ObjectStorage__Provider=R2`, `ObjectStorage__AccountId`, `ObjectStorage__AccessKey`, `ObjectStorage__SecretKey`, `ObjectStorage__BucketName`, `ObjectStorage__PublicBaseUrl`. Until then it keeps using local disk and will lose uploads on every redeploy, same as today.
+  - The 12 rooms' already-lost photos are unrecoverable — re-upload them via Edit Room once R2 is wired up.
 - [ ] **Email provider** — `M` — unlocks forgot-password, bill delivery, daily reports
   - Touches: new `IEmailSender` + Resend/SendGrid impl, env-var API key
   - Sub-tasks:

@@ -21,8 +21,12 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<INotificationRecorder, NotificationRecorder>();
         services.AddHttpContextAccessor();
-        services.AddScoped<IImageService, LocalImageService>();
 
+        services.Configure<ObjectStorageOptions>(config.GetSection("ObjectStorage"));
+        if (string.Equals(config["ObjectStorage:Provider"], "R2", StringComparison.OrdinalIgnoreCase))
+            services.AddScoped<IImageService, R2ImageService>();
+        else
+            services.AddScoped<IImageService, LocalImageService>();
 
         return services;
     }
